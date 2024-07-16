@@ -1,5 +1,6 @@
-import { round } from 'lodash'
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
 
-export const roundValue = (value: number) => {
-  return round(round(value, 3), 2)
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
 }
