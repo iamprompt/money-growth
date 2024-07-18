@@ -241,7 +241,50 @@ export const accounts: Record<BankCode, Account[]> = {
       ],
     },
   ],
-  [BankCode.GHB]: [],
+  [BankCode.GHB]: [
+    {
+      id: 5,
+      code: 'GHB_KEP_AOM_SAVINGS',
+      name: 'เงินฝากออมทรัพย์เก็บออม',
+      shortName: 'เก็บออม',
+      interestMethod: InterestMethod.WHOLE,
+      interestRates: [
+        { min: 0, max: 200000, rate: 1.95 },
+        { min: 200000, max: Infinity, rate: 0.45 },
+      ],
+      documents: [
+        {
+          type: DocumentType.WEBSITE,
+          url: 'https://www.ghbank.co.th/product-detail/kred-oom-saving',
+        },
+        {
+          type: DocumentType.SALES_SHEET,
+          url: 'https://www.ghbank.co.th/uploads/product/sale_sheet/19299_4fa46ddd62e2b4ce329ff3318c33226f68cd1219_423.pdf',
+        },
+      ],
+    },
+    {
+      id: 5,
+      code: 'GHB_WELFARE_SAVINGS',
+      name: 'GHB Welfare Savings',
+      shortName: 'GHB Welfare Savings',
+      interestMethod: InterestMethod.WHOLE,
+      interestRates: [
+        { min: 0, max: 10000000, rate: 1.85 },
+        { min: 10000000, max: Infinity, rate: 1.0 },
+      ],
+      documents: [
+        {
+          type: DocumentType.WEBSITE,
+          url: 'https://www.ghbank.co.th/product-detail/ghb-welfare-savings-apr',
+        },
+        {
+          type: DocumentType.SALES_SHEET,
+          url: 'https://www.ghbank.co.th/uploads/product/sale_sheet/19048_aab1fe21088972538502517a3d612aee0da59349_418.PDF',
+        },
+      ],
+    },
+  ],
   [BankCode.TISCO]: [],
   [BankCode.GSB]: [],
   [BankCode.BAY]: [],
