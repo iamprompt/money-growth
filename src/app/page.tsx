@@ -76,7 +76,7 @@ const Page = () => {
 
   const handleSubmit = useCallback(() => {
     console.log(inputRef.current?.value)
-    mutateAsync({ amount: Number(inputRef.current?.value), bonus: true })
+    mutateAsync({ amount: Number(inputRef.current?.value) })
   }, [mutateAsync])
 
   return (
