@@ -24,7 +24,7 @@ const Page = () => {
       products: string[]
       interests: {
         productCode: string
-        interests: {
+        steps: {
           min: number
           max: number
           rate: number
@@ -34,6 +34,7 @@ const Page = () => {
           accumulatedAmount: number
           averageRate: number
         }[]
+        interest: number
         average: number
         remaining: number
         amount: number
@@ -95,199 +96,199 @@ const Page = () => {
             </div>
           </div>
         </div>
-        <div className="mt-10">
-          <div className="mb-6">
-            <div className="text-2xl font-semibold">
-              ฝากเงินใน {data?.products.length} บัญชี
+        {data && (
+          <div className="mt-10">
+            <div className="mb-6">
+              <div className="text-2xl font-semibold">
+                ฝากเงินใน {data?.products.length} บัญชี
+              </div>
             </div>
-          </div>
-          <Accordion
-            className="space-y-4"
-            type="multiple"
-            value={openPanels}
-            onValueChange={setOpenPanels}
-          >
-            {data?.products.map((product) => {
-              const account = accountsMap.get(product)
-              const interest = interestAccounts.get(product)
+            <Accordion
+              className="space-y-4"
+              type="multiple"
+              value={openPanels}
+              onValueChange={setOpenPanels}
+            >
+              {data?.products.map((product) => {
+                const account = accountsMap.get(product)
+                const interest = interestAccounts.get(product)
 
-              if (!account || !interest) {
-                return null
-              }
+                if (!account || !interest) {
+                  return null
+                }
 
-              const bank = banks[account.bank]
+                const bank = banks[account.bank]
 
-              return (
-                <AccordionItem
-                  key={`account_${account.code}`}
-                  className="border rounded-lg overflow-hidden"
-                  value={account.code}
-                >
-                  <AccordionTrigger className="flex justify-between items-center">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className="size-10 rounded-md border shrink-0"
-                        style={{ backgroundColor: bank.icon?.bgColor }}
-                      >
-                        {bank.icon && (
-                          <Image
-                            src={bank.icon.path}
-                            alt={banks[account.bank].nameTh}
-                            width={40}
-                            height={40}
-                          />
-                        )}
+                return (
+                  <AccordionItem
+                    key={`account_${account.code}`}
+                    className="border rounded-lg overflow-hidden"
+                    value={account.code}
+                  >
+                    <AccordionTrigger className="flex justify-between items-center">
+                      <div className="flex items-center gap-3">
+                        <div
+                          className="size-10 rounded-md border shrink-0"
+                          style={{ backgroundColor: bank.icon?.bgColor }}
+                        >
+                          {bank.icon && (
+                            <Image
+                              src={bank.icon.path}
+                              alt={banks[account.bank].nameTh}
+                              width={40}
+                              height={40}
+                            />
+                          )}
+                        </div>
+                        <div>
+                          <div className="text-left text-md">
+                            {account.shortName || account.name}
+                          </div>
+                          <div className="text-left font-light text-xs text-gray-400">
+                            {banks[account.bank].nameTh}
+                          </div>
+                        </div>
                       </div>
                       <div>
-                        <div className="text-left text-md">
-                          {account.shortName || account.name}
+                        <div className="text-right text-md">
+                          ฿
+                          {interest.amount.toLocaleString(undefined, {
+                            minimumFractionDigits: 2,
+                          })}
                         </div>
-                        <div className="text-left font-light text-xs text-gray-400">
-                          {banks[account.bank].nameTh}
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-right text-md">
-                        ฿
-                        {interest.amount.toLocaleString(undefined, {
-                          minimumFractionDigits: 2,
-                        })}
-                      </div>
-                      <div className="text-right font-light text-xs text-gray-400">
-                        ดอกเบี้ยเฉลี่ย {interest.average.toFixed(2)}% ต่อปี (
-                        {interest.interests
-                          .slice(-1)[0]
-                          .accumulatedInterest.toLocaleString(undefined, {
+                        <div className="text-right font-light text-xs text-gray-400">
+                          ดอกเบี้ยเฉลี่ย {interest.average.toFixed(2)}% ต่อปี (
+                          {interest.interest.toLocaleString(undefined, {
                             minimumFractionDigits: 2,
                           })}{' '}
-                        บาท)
+                          บาท)
+                        </div>
                       </div>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="bg-gray-50 py-3 px-4 transition-all">
-                    <div>
-                      <div className="font-medium">
-                        ขั้นบันไดดอกเบี้ย (
-                        {account.interestMethod === 'WHOLE'
-                          ? 'ดอกเบี้ยทั้งก้อน'
-                          : 'ดอกเบี้ยขั้นบันได'}
-                        )
+                    </AccordionTrigger>
+                    <AccordionContent className="bg-gray-50 py-3 px-4 transition-all">
+                      <div>
+                        <div className="font-medium">
+                          ขั้นบันไดดอกเบี้ย (
+                          {account.interestMethod === 'WHOLE'
+                            ? 'ดอกเบี้ยทั้งก้อน'
+                            : 'ดอกเบี้ยขั้นบันได'}
+                          )
+                        </div>
+                        <div className="text-xs mt-2 border rounded-lg w-full overflow-hidden overflow-x-scroll md:no-scrollbar">
+                          <table className="w-full table-fixed">
+                            <thead>
+                              <tr className="border-b text-white bg-gray-800">
+                                <th className="w-[200px]"></th>
+                                <th className="font-normal w-[100px] py-2">
+                                  เงินฝาก
+                                </th>
+                                <th className="font-normal w-[100px] py-2">
+                                  เงินฝากสะสม
+                                </th>
+                                <th className="font-normal w-[100px] py-2">
+                                  อัตราดอกเบี้ย
+                                </th>
+                                <th className="font-normal w-[100px] py-2">
+                                  ดอกเบี้ย
+                                </th>
+                                <th className="font-normal w-[100px] py-2">
+                                  ดอกเบี้ยสะสม
+                                </th>
+                                <th className="font-normal w-[100px] py-2">
+                                  ดอกเบี้ยเฉลี่ย
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody className="bg-white">
+                              {interest.steps.map((step) => {
+                                const isNoDeposit = step.amount === 0
+                                return (
+                                  <tr key={step.min}>
+                                    <td className="font-light text-xs py-2 px-3">
+                                      {step.max === null
+                                        ? `มากกว่า ${step.min.toLocaleString()} บาท`
+                                        : `${step.min.toLocaleString()} - ${step.max.toLocaleString()} บาท`}
+                                    </td>
+                                    <td
+                                      className={cn(
+                                        'font-light text-xs text-center px-2 py-2',
+                                        isNoDeposit && 'text-gray-400',
+                                      )}
+                                    >
+                                      {step.amount.toLocaleString(undefined, {
+                                        minimumFractionDigits: 2,
+                                      })}
+                                    </td>
+                                    <td className="font-light text-xs text-center px-2 py-2">
+                                      {step.accumulatedAmount.toLocaleString(
+                                        undefined,
+                                        { minimumFractionDigits: 2 },
+                                      )}
+                                    </td>
+                                    <td className="font-light text-xs text-center px-2 py-2">
+                                      {step.rate.toFixed(2)}%
+                                    </td>
+                                    <td
+                                      className={cn(
+                                        'font-light text-xs text-center px-2 py-2',
+                                        isNoDeposit && 'text-gray-400',
+                                      )}
+                                    >
+                                      {step.interest.toLocaleString(undefined, {
+                                        minimumFractionDigits: 2,
+                                      })}
+                                    </td>
+                                    <td className="font-light text-xs text-center px-2 py-2">
+                                      {step.accumulatedInterest.toLocaleString(
+                                        undefined,
+                                        { minimumFractionDigits: 2 },
+                                      )}
+                                    </td>
+                                    <td className="font-light text-xs text-center px-2 py-2">
+                                      {step.averageRate.toFixed(2)}%
+                                    </td>
+                                  </tr>
+                                )
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
-                      <div className="text-xs mt-2 border rounded-lg w-full overflow-hidden overflow-x-scroll md:no-scrollbar">
-                        <table className="w-full table-fixed">
-                          <thead>
-                            <tr className="border-b text-white bg-gray-800">
-                              <th className="w-[200px]"></th>
-                              <th className="font-normal w-[100px] py-2">
-                                เงินฝาก
-                              </th>
-                              <th className="font-normal w-[100px] py-2">
-                                เงินฝากสะสม
-                              </th>
-                              <th className="font-normal w-[100px] py-2">
-                                อัตราดอกเบี้ย
-                              </th>
-                              <th className="font-normal w-[100px] py-2">
-                                ดอกเบี้ย
-                              </th>
-                              <th className="font-normal w-[100px] py-2">
-                                ดอกเบี้ยสะสม
-                              </th>
-                              <th className="font-normal w-[100px] py-2">
-                                ดอกเบี้ยเฉลี่ย
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody className="bg-white">
-                            {interest.interests.map((interest) => {
-                              const isNoDeposit = interest.amount === 0
-                              return (
-                                <tr key={interest.min}>
-                                  <td className="font-light text-xs py-2 px-3">
-                                    {interest.max === null
-                                      ? `มากกว่า ${interest.min.toLocaleString()} บาท`
-                                      : `${interest.min.toLocaleString()} - ${interest.max.toLocaleString()} บาท`}
-                                  </td>
-                                  <td
-                                    className={cn(
-                                      'font-light text-xs text-center px-2 py-2',
-                                      isNoDeposit && 'text-gray-400',
-                                    )}
-                                  >
-                                    {interest.amount.toLocaleString(undefined, {
-                                      minimumFractionDigits: 2,
-                                    })}
-                                  </td>
-                                  <td className="font-light text-xs text-center px-2 py-2">
-                                    {interest.accumulatedAmount.toLocaleString(
-                                      undefined,
-                                      { minimumFractionDigits: 2 },
-                                    )}
-                                  </td>
-                                  <td className="font-light text-xs text-center px-2 py-2">
-                                    {interest.rate.toFixed(2)}%
-                                  </td>
-                                  <td
-                                    className={cn(
-                                      'font-light text-xs text-center px-2 py-2',
-                                      isNoDeposit && 'text-gray-400',
-                                    )}
-                                  >
-                                    {interest.interest.toLocaleString(
-                                      undefined,
-                                      { minimumFractionDigits: 2 },
-                                    )}
-                                  </td>
-                                  <td className="font-light text-xs text-center px-2 py-2">
-                                    {interest.accumulatedInterest.toLocaleString(
-                                      undefined,
-                                      { minimumFractionDigits: 2 },
-                                    )}
-                                  </td>
-                                  <td className="font-light text-xs text-center px-2 py-2">
-                                    {interest.averageRate.toFixed(2)}%
-                                  </td>
-                                </tr>
-                              )
-                            })}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                    <div></div>
-                  </AccordionContent>
-                </AccordionItem>
-              )
-            })}
-          </Accordion>
-          <div className="flex items-center justify-between p-4 border border-border rounded-lg my-4">
-            <div>
-              <div className="text-xl font-light">
-                รวมเงินฝาก{' '}
-                <span className="font-semibold">
-                  {data?.totalAmount.toLocaleString()}
-                </span>{' '}
-                บาท
-                {(data?.remaining || 0) > 0 && (
-                  <span className="text-gray-400">{` (เหลือ ${data?.remaining.toLocaleString()} บาท)`}</span>
-                )}
+                      <div></div>
+                    </AccordionContent>
+                  </AccordionItem>
+                )
+              })}
+            </Accordion>
+
+            <div className="flex items-center justify-between p-4 border border-border rounded-lg my-4">
+              <div>
+                <div className="text-xl font-light">
+                  รวมเงินฝาก{' '}
+                  <span className="font-semibold">
+                    {data?.totalAmount.toLocaleString()}
+                  </span>{' '}
+                  บาท
+                  {(data?.remaining || 0) > 0 && (
+                    <span className="text-gray-400">{` (เหลือ ${data?.remaining.toLocaleString()} บาท)`}</span>
+                  )}
+                </div>
               </div>
-            </div>
-            <div>
-              <div className="text-xl font-semibold text-right">
-                ดอกเบี้ยเฉลี่ย {data?.interestAverage.toFixed(2)}% ต่อปี
-              </div>
-              <div className="text-md font-light text-gray-400 text-right">
-                จะได้รับดอกเบี้ยประมาณ{' '}
-                {data?.totalInterest.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                })}{' '}
-                บาท
+              <div>
+                <div className="text-xl font-semibold text-right">
+                  ดอกเบี้ยเฉลี่ย {data?.interestAverage.toFixed(2)}% ต่อปี
+                </div>
+                <div className="text-md font-light text-gray-400 text-right">
+                  จะได้รับดอกเบี้ยประมาณ{' '}
+                  {data?.totalInterest.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                  })}{' '}
+                  บาท
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )

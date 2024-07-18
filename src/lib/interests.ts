@@ -197,7 +197,8 @@ type CalculateCombinedInterestOptions = {
 
 type CalculatedAccount = {
   productCode: string
-  interests: CalculatedInterestRate[]
+  interest: number
+  steps: CalculatedInterestRate[]
   average: number
   remaining: number
   amount: number
@@ -259,8 +260,12 @@ export const calculateCombinedInterest = (
     products.push(highestProductCode)
     sortedInterestAccounts.push({
       productCode: highestProductCode,
-      interests: interests[highestProductCode],
+      steps: interests[highestProductCode],
       average: highestAvgRate,
+      interest: interests[highestProductCode].reduce(
+        (acc, { interest }) => acc + interest,
+        0,
+      ),
       remaining: remainingMap[highestProductCode],
       amount: computedAmountMap[highestProductCode],
     })
@@ -276,9 +281,9 @@ export const calculateCombinedInterest = (
   let totalInterest = 0
   let totalAmount = 0
 
-  for (const { amount: computedAmount, interests } of sortedInterestAccounts) {
+  for (const { amount: computedAmount, interest } of sortedInterestAccounts) {
     totalAmount += computedAmount
-    totalInterest += interests.reduce((acc, { interest }) => acc + interest, 0)
+    totalInterest += interest
   }
 
   return {
