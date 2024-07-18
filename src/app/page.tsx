@@ -1,8 +1,11 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import Image from 'next/image'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 import {
   Accordion,
@@ -11,13 +14,36 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { accountsList, accountsMap } from '@/data/accounts'
 import { banks } from '@/data/banks'
 import { cn } from '@/lib/utils'
 
+const schema = z.object({
+  amount: z
+    .string()
+    .transform((value) => {
+      return parseFloat(value.replace(/,/g, ''))
+    })
+    .refine((value) => value > 0),
+})
+
 const Page = () => {
   const list = accountsList
+
+  const form = useForm({
+    defaultValues: {
+      amount: '',
+    },
+    resolver: zodResolver(schema),
+  })
 
   const { data, isPending, mutateAsync } = useMutation<
     {
@@ -73,12 +99,15 @@ const Page = () => {
     }
   }, [data])
 
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  const handleSubmit = useCallback(() => {
-    console.log(inputRef.current?.value)
-    mutateAsync({ amount: Number(inputRef.current?.value) })
-  }, [mutateAsync])
+  const handleSubmit = useCallback(
+    (data: z.input<typeof schema>) => {
+      mutateAsync({
+        ...data,
+        amount: parseFloat(data.amount),
+      })
+    },
+    [mutateAsync],
+  )
 
   return (
     <div>
@@ -89,10 +118,49 @@ const Page = () => {
 
         <div className="space-y-2 mt-6">
           <div className="space-y-2">
-            <div>จำนวนเงินฝาก (บาท)</div>
-            <div className="flex gap-4">
-              <Input ref={inputRef} placeholder="1000000" />
-              <Button onClick={handleSubmit}>คำนวณ</Button>
+            <div>
+              <Form {...form}>
+                <form
+                  className="flex items-end gap-4 w-full"
+                  onSubmit={form.handleSubmit(handleSubmit, console.log)}
+                >
+                  <FormField
+                    name="amount"
+                    control={form.control}
+                    render={({ field: { onChange, ...field } }) => {
+                      return (
+                        <FormItem className="w-full">
+                          <FormLabel>จำนวนเงินฝาก (บาท)</FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              onChange={(e) => {
+                                let value = e.target.value
+
+                                value = value.replace(/[^0-9\.]/g, '')
+                                value = value.replace(/^0+/, '')
+                                value = value.replace(
+                                  /^(\d{1,})\.(\d{2}).*$/,
+                                  '$1.$2',
+                                )
+                                value = value.replace(
+                                  /\B(?=(\d{3})+(?!\d))/g,
+                                  ',',
+                                )
+
+                                onChange(value)
+                              }}
+                              placeholder="1,000,000.00"
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )
+                    }}
+                  />
+
+                  <Button type="submit">คำนวณ</Button>
+                </form>
+              </Form>
             </div>
           </div>
         </div>
