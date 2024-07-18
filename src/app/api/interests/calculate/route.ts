@@ -15,11 +15,12 @@ const bodySchema = z.object({
       ),
     )
     .default(false),
+  exclude: z.array(z.string()).default([]),
 })
 
 export const POST = async (request: Request) => {
   try {
-    const { amount, bonus } = bodySchema.parse(await request.json())
+    const { amount, bonus, exclude } = bodySchema.parse(await request.json())
 
     const interest = calculateCombinedInterest(amount, {
       bonus:
@@ -31,6 +32,7 @@ export const POST = async (request: Request) => {
               },
               {} as Record<string, boolean>,
             ),
+      exclude,
     })
 
     return Response.json(interest)
