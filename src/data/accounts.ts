@@ -19,6 +19,7 @@ export type Account = {
   id: number
   code: string
   name: string
+  shortName?: string
   interestMethod: InterestMethod
   interestRates: InterestRate[]
   bonusInterestRates?: InterestRate[]
@@ -31,6 +32,7 @@ export const accounts: Record<BankCode, Account[]> = {
       id: 1,
       code: 'CIMB_CHILL_D_SAVINGS',
       name: 'บัญชีเงินฝากออมทรัพย์ชิลดี ซีไอเอ็มบี ไทย',
+      shortName: 'CIMB Chill D',
       interestMethod: InterestMethod.STEP_UP,
       interestRates: [
         { min: 0, max: 10000, rate: 0.5 },
@@ -53,6 +55,7 @@ export const accounts: Record<BankCode, Account[]> = {
       id: 2,
       code: 'CIMB_SPEED_D_PLUS_SAVINGS',
       name: 'เงินฝากออมทรัพย์ สปีดดี พลัส ซีไอเอ็มบี ไทย (Speed D+)',
+      shortName: 'CIMB Speed D+',
       interestMethod: InterestMethod.WHOLE,
       interestRates: [
         { min: 0, max: 100000, rate: 0.8 },
@@ -76,6 +79,7 @@ export const accounts: Record<BankCode, Account[]> = {
       id: 7,
       code: 'LHB_B_YOU_WEALTH',
       name: 'บัญชีออมทรัพย์ดิจิทัล บียู เวลท์',
+      shortName: 'B You Wealth',
       interestMethod: InterestMethod.STEP_UP,
       interestRates: [
         { min: 0, max: 100000, rate: 0.25 },
@@ -99,6 +103,7 @@ export const accounts: Record<BankCode, Account[]> = {
       id: 8,
       code: 'LHB_PRO_FIT',
       name: 'บัญชีออมทรัพย์ดิจิทัล โปร-ฟิต',
+      shortName: 'Pro Fit',
       interestMethod: InterestMethod.STEP_UP,
       interestRates: [
         { min: 0, max: 3000000, rate: 1.5 },
@@ -122,6 +127,7 @@ export const accounts: Record<BankCode, Account[]> = {
       id: 3,
       code: 'DIME_SAVE',
       name: 'บัญชีเงินฝากออมทรัพย์ Dime! Save',
+      shortName: 'Dime! Save',
       interestMethod: InterestMethod.STEP_UP,
       interestRates: [
         { min: 0, max: 10000, rate: 3.0 },
@@ -143,6 +149,7 @@ export const accounts: Record<BankCode, Account[]> = {
       id: 4,
       code: 'KKP_START_SAVING',
       name: 'บัญชีเงินฝากออมทรัพย์ KKP START SAVING',
+      shortName: 'KKP Start Saving',
       interestMethod: InterestMethod.STEP_UP,
       interestRates: [
         { min: 0, max: 50000, rate: 2.0 },
@@ -165,6 +172,7 @@ export const accounts: Record<BankCode, Account[]> = {
       id: 9,
       code: 'KKP_KKP_SAVVY',
       name: 'บัญชีเงินฝากออมทรัพย์ KKP SAVVY',
+      shortName: 'KKP Savvy',
       interestMethod: InterestMethod.WHOLE,
       interestRates: [
         { min: 0, max: 10000, rate: 0.5 },
@@ -190,6 +198,7 @@ export const accounts: Record<BankCode, Account[]> = {
       id: 6,
       code: 'TTB_ME_SAVE',
       name: 'บัญชี ทีทีบี มีเซฟ',
+      shortName: 'TTB Me Save',
       interestMethod: InterestMethod.STEP_UP,
       interestRates: [
         { min: 0, max: 100000, rate: 1 },
@@ -214,6 +223,7 @@ export const accounts: Record<BankCode, Account[]> = {
       id: 5,
       code: 'TCR_ALPHA_SAVINGS',
       name: 'บัญชีเงินฝากออมทรัพย์อัลฟา',
+      shortName: 'alpha savings',
       interestMethod: InterestMethod.STEP_UP,
       interestRates: [
         { min: 0, max: 500000, rate: 2.0 },
