@@ -2,8 +2,15 @@
 
 import { Accordion } from '@radix-ui/react-accordion'
 import Image from 'next/image'
-import { forwardRef, useMemo, useState } from 'react'
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react'
 import { useFormContext } from 'react-hook-form'
+import { z } from 'zod'
 
 import {
   AccordionContent,
@@ -11,8 +18,18 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
-import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerFooter,
+  DrawerTrigger,
+} from '@/components/ui/drawer'
+import {
+  Sheet,
+  SheetContent,
+  SheetFooter,
+  SheetTrigger,
+} from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
 import { accounts } from '@/data/accounts'
 import { BankCode, banks } from '@/data/banks'
@@ -21,16 +38,34 @@ import { cn } from '@/lib/utils'
 
 type AdvancedFilterFormProps = {
   className?: string
+  onSubmit?: (data: Map<string, Account>) => Promise<void>
 }
 
-export const AdvancedFilterTrigger = () => {
+type AdvancedFilterFormRef = {
+  submit: () => Promise<void>
+}
+
+type AdvancedFilterTriggerProps = {
+  onSubmit?: () => void
+}
+
+export const AdvancedFilterTrigger = ({
+  onSubmit,
+}: AdvancedFilterTriggerProps) => {
+  const { setValue } = useFormContext()
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
-  if (isDesktop) {
-    return <AdvancedFilterSheet />
+  const onSubmitForm = async (data: Map<string, Account>) => {
+    const preferences = [...data.values()]
+    setValue('accounts', preferences)
+    onSubmit?.()
   }
 
-  return <AdvancedFilterDrawer />
+  if (isDesktop) {
+    return <AdvancedFilterSheet onSubmit={onSubmitForm} />
+  }
+
+  return <AdvancedFilterDrawer onSubmit={onSubmitForm} />
 }
 
 const AdvancedFilterButton = forwardRef<
@@ -50,48 +85,109 @@ const AdvancedFilterButton = forwardRef<
 
 AdvancedFilterButton.displayName = 'AdvancedFilterButton'
 
-const AdvancedFilterDrawer = ({ className }: AdvancedFilterFormProps) => {
+const accountSchema = z.object({
+  productCode: z.string(),
+  bonus: z.boolean().optional(),
+  enable: z.boolean().default(true).optional(),
+})
+
+type Account = z.infer<typeof accountSchema>
+
+const AdvancedFilterDrawer = ({
+  className,
+  onSubmit,
+}: AdvancedFilterFormProps) => {
   const [isOpen, setIsOpen] = useState(false)
+
+  const filterFormRef = useRef<AdvancedFilterFormRef>(null)
+
+  const handleSubmit = async () => {
+    await filterFormRef.current?.submit()
+    setIsOpen(false)
+  }
 
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
         <AdvancedFilterButton />
       </DrawerTrigger>
-      <DrawerContent className="px-4 h-3/4">
-        <AdvancedFilterForm className="mt-6 mb-4 overflow-y-scroll" />
+      <DrawerContent className="px-4 h-3/4 flex flex-col justify-between">
+        <AdvancedFilterForm
+          ref={filterFormRef}
+          className="mt-6 mb-4 overflow-y-scroll"
+          onSubmit={onSubmit}
+        />
+        <DrawerFooter className="pt-2 px-0">
+          <Button onClick={handleSubmit}>ปรับใช้</Button>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   )
 }
 
-const AdvancedFilterSheet = ({ className }: AdvancedFilterFormProps) => {
+const AdvancedFilterSheet = ({
+  className,
+  onSubmit,
+}: AdvancedFilterFormProps) => {
   const [isOpen, setIsOpen] = useState(false)
+  const filterFormRef = useRef<AdvancedFilterFormRef>(null)
+
+  const handleSubmit = async () => {
+    await filterFormRef.current?.submit()
+    setIsOpen(false)
+  }
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <AdvancedFilterButton />
       </SheetTrigger>
-      <SheetContent>
-        <AdvancedFilterForm className="overflow-y-scroll h-full" />
+      <SheetContent className="flex flex-col">
+        <AdvancedFilterForm
+          ref={filterFormRef}
+          className="overflow-y-scroll h-full flex-1"
+          onSubmit={onSubmit}
+        />
+        <SheetFooter>
+          <Button className="w-full" onClick={handleSubmit}>
+            ปรับใช้
+          </Button>
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   )
 }
 
-const AdvancedFilterForm = ({ className }: AdvancedFilterFormProps) => {
-  const { setValue, watch } = useFormContext()
-
+const AdvancedFilterForm = forwardRef<
+  AdvancedFilterFormRef,
+  AdvancedFilterFormProps
+>(({ className, onSubmit }, ref) => {
   const [openPanels, setOpenPanels] = useState<string[]>([])
 
-  const accountsWatch = watch('accounts')
-  const accountsPreference = useMemo<
-    { productCode: string; bonus?: boolean; enable?: boolean }[]
-  >(() => {
-    if (!accountsWatch) return []
-    return accountsWatch
-  }, [accountsWatch])
+  const [accountPreferences, setAccountPreferences] = useState<
+    Map<string, Account>
+  >(new Map())
+
+  const { getValues } = useFormContext()
+
+  useImperativeHandle(ref, () => ({
+    submit: async () => {
+      await onSubmit?.(accountPreferences)
+    },
+  }))
+
+  const accountPrefs = getValues('accounts')
+
+  useEffect(() => {
+    const preferences: Account[] = accountPrefs || []
+
+    const preferencesMap = new Map<string, Account>()
+    for (const pref of preferences) {
+      preferencesMap.set(pref.productCode, pref)
+    }
+
+    setAccountPreferences(preferencesMap)
+  }, [accountPrefs])
 
   return (
     <div className={cn(className)}>
@@ -99,7 +195,6 @@ const AdvancedFilterForm = ({ className }: AdvancedFilterFormProps) => {
         <h3 className="text-lg font-semibold mb-4">บัญชีเงินฝากดอกเบี้ยสูง</h3>
       </div>
       <Accordion
-        className="space-y-4"
         type="multiple"
         value={openPanels}
         onValueChange={setOpenPanels}
@@ -137,10 +232,7 @@ const AdvancedFilterForm = ({ className }: AdvancedFilterFormProps) => {
               </AccordionTrigger>
               <AccordionContent className="p-0">
                 {accounts.map((account) => {
-                  const accountPrefIdx = accountsPreference.findIndex(
-                    (a) => a.productCode === account.code,
-                  )
-                  const accountPref = accountsPreference[accountPrefIdx]
+                  const accountPref = accountPreferences.get(account.code)
 
                   return (
                     <div
@@ -152,20 +244,25 @@ const AdvancedFilterForm = ({ className }: AdvancedFilterFormProps) => {
                         <Switch
                           checked={accountPref?.enable ?? true}
                           onCheckedChange={(checked) => {
-                            console.log('checked', checked)
-
-                            if (accountPrefIdx === -1) {
-                              setValue('accounts', [
-                                ...accountsPreference,
-                                { productCode: account.code, enable: checked },
-                              ])
-                              return
+                            if (!accountPref) {
+                              setAccountPreferences(
+                                new Map(
+                                  accountPreferences.set(account.code, {
+                                    productCode: account.code,
+                                    enable: checked,
+                                  }),
+                                ),
+                              )
+                            } else {
+                              setAccountPreferences(
+                                new Map(
+                                  accountPreferences.set(account.code, {
+                                    ...accountPref,
+                                    enable: checked,
+                                  }),
+                                ),
+                              )
                             }
-
-                            setValue(
-                              `accounts.${accountPrefIdx}.enable`,
-                              checked,
-                            )
                           }}
                         />
                       </div>
@@ -179,4 +276,6 @@ const AdvancedFilterForm = ({ className }: AdvancedFilterFormProps) => {
       </Accordion>
     </div>
   )
-}
+})
+
+AdvancedFilterForm.displayName = 'AdvancedFilterForm'

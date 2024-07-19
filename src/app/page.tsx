@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import Image from 'next/image'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -23,9 +23,15 @@ import {
   FormLabel,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { accountsList, accountsMap } from '@/data/accounts'
+import { accountsMap } from '@/data/accounts'
 import { banks } from '@/data/banks'
 import { cn } from '@/lib/utils'
+
+const accountSchema = z.object({
+  productCode: z.string(),
+  bonus: z.boolean().optional(),
+  enable: z.boolean().default(true).optional(),
+})
 
 const schema = z.object({
   amount: z
@@ -34,18 +40,10 @@ const schema = z.object({
       return parseFloat(value.replace(/,/g, ''))
     })
     .refine((value) => value > 0),
-  accounts: z.array(
-    z.object({
-      productCode: z.string(),
-      bonus: z.boolean().optional(),
-      enable: z.boolean().default(true).optional(),
-    }),
-  ),
+  accounts: z.array(accountSchema),
 })
 
 const Page = () => {
-  const list = accountsList
-
   const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -102,6 +100,14 @@ const Page = () => {
     )
   }, [data])
 
+  const formRef = useRef<HTMLFormElement>(null)
+
+  const onManualSubmit = useCallback(() => {
+    if (form.formState.isSubmitted) {
+      formRef.current?.requestSubmit()
+    }
+  }, [formRef, form.formState.isSubmitted])
+
   useEffect(() => {
     if (data) {
       setOpenPanels(data.products)
@@ -130,6 +136,7 @@ const Page = () => {
             <div>
               <Form {...form}>
                 <form
+                  ref={formRef}
                   className="flex flex-col sm:flex-row sm:items-end gap-4 w-full"
                   onSubmit={form.handleSubmit(handleSubmit, console.log)}
                 >
@@ -171,7 +178,7 @@ const Page = () => {
                     <Button className="w-full" type="submit">
                       คำนวณ
                     </Button>
-                    <AdvancedFilterTrigger />
+                    <AdvancedFilterTrigger onSubmit={onManualSubmit} />
                   </div>
                 </form>
               </Form>
