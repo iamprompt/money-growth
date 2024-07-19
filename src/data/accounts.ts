@@ -16,7 +16,6 @@ export type Document = {
 }
 
 export type Account = {
-  id: number
   code: string
   name: string
   shortName?: string
@@ -29,7 +28,6 @@ export type Account = {
 export const accounts: Record<BankCode, Account[]> = {
   [BankCode.CIMB]: [
     {
-      id: 1,
       code: 'CIMB_CHILL_D_SAVINGS',
       name: 'บัญชีเงินฝากออมทรัพย์ชิลดี ซีไอเอ็มบี ไทย',
       shortName: 'CIMB Chill D',
@@ -52,7 +50,6 @@ export const accounts: Record<BankCode, Account[]> = {
       ],
     },
     {
-      id: 2,
       code: 'CIMB_SPEED_D_PLUS_SAVINGS',
       name: 'เงินฝากออมทรัพย์ สปีดดี พลัส ซีไอเอ็มบี ไทย (Speed D+)',
       shortName: 'CIMB Speed D+',
@@ -76,7 +73,6 @@ export const accounts: Record<BankCode, Account[]> = {
   ],
   [BankCode.LHB]: [
     {
-      id: 7,
       code: 'LHB_B_YOU_WEALTH',
       name: 'บัญชีออมทรัพย์ดิจิทัล บียู เวลท์',
       shortName: 'B You Wealth',
@@ -100,7 +96,6 @@ export const accounts: Record<BankCode, Account[]> = {
       ],
     },
     {
-      id: 8,
       code: 'LHB_PRO_FIT',
       name: 'บัญชีออมทรัพย์ดิจิทัล โปร-ฟิต',
       shortName: 'Pro Fit',
@@ -124,7 +119,6 @@ export const accounts: Record<BankCode, Account[]> = {
   ],
   [BankCode.KKP]: [
     {
-      id: 3,
       code: 'DIME_SAVE',
       name: 'บัญชีเงินฝากออมทรัพย์ Dime! Save',
       shortName: 'Dime! Save',
@@ -146,7 +140,6 @@ export const accounts: Record<BankCode, Account[]> = {
       ],
     },
     {
-      id: 4,
       code: 'KKP_START_SAVING',
       name: 'บัญชีเงินฝากออมทรัพย์ KKP START SAVING',
       shortName: 'KKP Start Saving',
@@ -169,7 +162,6 @@ export const accounts: Record<BankCode, Account[]> = {
       ],
     },
     {
-      id: 9,
       code: 'KKP_KKP_SAVVY',
       name: 'บัญชีเงินฝากออมทรัพย์ KKP SAVVY',
       shortName: 'KKP Savvy',
@@ -195,7 +187,6 @@ export const accounts: Record<BankCode, Account[]> = {
   ],
   [BankCode.TTB]: [
     {
-      id: 6,
       code: 'TTB_ME_SAVE',
       name: 'บัญชี ทีทีบี มีเซฟ',
       shortName: 'TTB Me Save',
@@ -220,7 +211,6 @@ export const accounts: Record<BankCode, Account[]> = {
   ],
   [BankCode.TCR]: [
     {
-      id: 5,
       code: 'TCR_ALPHA_SAVINGS',
       name: 'บัญชีเงินฝากออมทรัพย์อัลฟา',
       shortName: 'alpha savings',
@@ -243,7 +233,6 @@ export const accounts: Record<BankCode, Account[]> = {
   ],
   [BankCode.GHB]: [
     {
-      id: 5,
       code: 'GHB_KEP_AOM_SAVINGS',
       name: 'เงินฝากออมทรัพย์เก็บออม',
       shortName: 'เก็บออม',
@@ -264,7 +253,6 @@ export const accounts: Record<BankCode, Account[]> = {
       ],
     },
     {
-      id: 5,
       code: 'GHB_WELFARE_SAVINGS',
       name: 'GHB Welfare Savings',
       shortName: 'GHB Welfare Savings',
@@ -285,14 +273,176 @@ export const accounts: Record<BankCode, Account[]> = {
       ],
     },
   ],
-  [BankCode.TISCO]: [],
+  [BankCode.TISCO]: [
+    {
+      code: 'TISCO_E_SAVINGS',
+      name: 'TISCO e-Savings',
+      shortName: 'TISCO e-Savings',
+      interestMethod: InterestMethod.STEP_UP,
+      interestRates: [
+        { min: 0, max: 1000000, rate: 1.55 },
+        { min: 1000000, max: Infinity, rate: 0.5 },
+      ],
+      documents: [
+        {
+          type: DocumentType.WEBSITE,
+          url: 'https://www.tisco.co.th/th/personal/saving/e-savings.html',
+        },
+        {
+          type: DocumentType.SALES_SHEET,
+          url: 'https://www.tisco.co.th/content/dam/tiscobank/download/deposit/salessheet-prodcat-v52.pdf',
+        },
+      ],
+    },
+  ],
   [BankCode.GSB]: [],
-  [BankCode.BAY]: [],
-  [BankCode.KTB]: [],
-  [BankCode.UOB]: [],
-  [BankCode.SCB]: [],
-  [BankCode.KBANK]: [],
-  [BankCode.BBL]: [],
+  [BankCode.BAY]: [
+    {
+      code: 'BAY_MEE_TAE_DAI_ONLINE',
+      name: 'ออมทรัพย์ มีแต่ได้ ออนไลน์',
+      shortName: 'ออมทรัพย์ มีแต่ได้ ออนไลน์',
+      interestMethod: InterestMethod.STEP_UP,
+      interestRates: [
+        { min: 0, max: 2000000, rate: 1.5 },
+        { min: 2000000, max: 50000000, rate: 0.65 },
+        { min: 50000000, max: 500000000, rate: 0.25 },
+      ],
+      documents: [
+        {
+          type: DocumentType.WEBSITE,
+          url: 'https://www.krungsri.com/th/personal/deposit/savings-account/mee-tae-dai/online',
+        },
+      ],
+    },
+  ],
+  [BankCode.KTB]: [
+    {
+      code: 'KTB_NEXT_SAVINGS',
+      name: 'Krungthai NEXT Savings',
+      shortName: 'Krungthai NEXT Savings',
+      interestMethod: InterestMethod.STEP_UP,
+      interestRates: [
+        { min: 0, max: 2000000, rate: 1.5 },
+        { min: 2000000, max: Infinity, rate: 0.65 },
+      ],
+      documents: [
+        {
+          type: DocumentType.WEBSITE,
+          url: 'https://krungthai.com/th/personal/deposits/212/345',
+        },
+        {
+          type: DocumentType.SALES_SHEET,
+          url: 'https://krungthai.com/Download/product/MediaFile_25816TH_SalesSheet_03082023_NEXTSAV_Final2.pdf',
+        },
+        {
+          type: DocumentType.TERM_SHEET,
+          url: 'https://krungthai.com/Download/product/MediaFile_20924TC_NextSavings_AUG_TH.pdf',
+        },
+      ],
+    },
+  ],
+  [BankCode.UOB]: [
+    {
+      code: 'UOB_STASH',
+      name: 'UOB STASH',
+      shortName: 'UOB STASH',
+      interestMethod: InterestMethod.STEP_UP,
+      interestRates: [
+        { min: 0, max: 2000000, rate: 1.0 },
+        { min: 2000000, max: Infinity, rate: 1.0 },
+      ],
+      bonusInterestRates: [{ min: 0, max: 2000000, rate: 0.5 }],
+      documents: [
+        {
+          type: DocumentType.WEBSITE,
+          url: 'https://www.uob.co.th/personal/deposits/saving/stash.page',
+        },
+        {
+          type: DocumentType.SALES_SHEET,
+          url: 'https://www.uob.co.th/web-resources/pdf/personal/deposits/salesheet-uob-stash-tmrw-th.pdf',
+        },
+      ],
+    },
+  ],
+  [BankCode.SCB]: [
+    {
+      code: 'SCB_EASY_SAVING',
+      name: 'ออมทรัพย์ อีซี่',
+      shortName: 'ออมทรัพย์ อีซี่',
+      interestMethod: InterestMethod.STEP_UP,
+      interestRates: [
+        { min: 0, max: 2000000, rate: 1.5 },
+        { min: 2000000, max: 3000000, rate: 1.0 },
+        { min: 3000000, max: Infinity, rate: 0.65 },
+      ],
+      documents: [
+        {
+          type: DocumentType.WEBSITE,
+          url: 'https://www.scb.co.th/th/personal-banking/deposits/savings-account/easy-saving-account.html',
+        },
+        {
+          type: DocumentType.SALES_SHEET,
+          url: 'https://www.scb.co.th/content/media/personal-banking/product-sales-sheet/deposits/ez-savings-account.pdf',
+        },
+        {
+          type: DocumentType.TERM_SHEET,
+          url: 'https://www.scb.co.th/content/media/personal-banking/terms-conditions/deposits/ez-savings-account/tc-ez-savings-account.pdf',
+        },
+      ],
+    },
+  ],
+  [BankCode.KBANK]: [
+    {
+      code: 'KBANK_K_ESAVINGS',
+      name: 'K-eSavings',
+      shortName: 'K-eSavings',
+      interestMethod: InterestMethod.STEP_UP,
+      interestRates: [
+        { min: 0, max: 500000, rate: 1.5 },
+        { min: 500000, max: Infinity, rate: 0.65 },
+      ],
+      documents: [
+        {
+          type: DocumentType.WEBSITE,
+          url: 'https://www.kasikornbank.com/th/personal/Digital-banking/Pages/k-esavings-account.aspx',
+        },
+        {
+          type: DocumentType.SALES_SHEET,
+          url: 'https://www.kasikornbank.com/th/download/tc/k-esavings-deposit-sales-sheet_th.pdf',
+        },
+        {
+          type: DocumentType.TERM_SHEET,
+          url: 'https://www.kasikornbank.com/th/download/tc/Terms_and_Conditions_for_Opening_and_Use_of_K-eSavings_Account_24-6-2024-TH.pdf',
+        },
+      ],
+    },
+  ],
+  [BankCode.BBL]: [
+    {
+      code: 'BBL_E_SAVINGS',
+      name: 'สะสมทรัพย์ e-Savings',
+      shortName: 'สะสมทรัพย์ e-Savings',
+      interestMethod: InterestMethod.STEP_UP,
+      interestRates: [
+        { min: 0, max: 1000000, rate: 1.5 },
+        { min: 1000000, max: Infinity, rate: 0.65 },
+      ],
+      documents: [
+        {
+          type: DocumentType.WEBSITE,
+          url: 'https://www.bangkokbank.com/th-TH/Personal/Save-And-Invest/Save/e-Savings-Account',
+        },
+        {
+          type: DocumentType.SALES_SHEET,
+          url: 'https://www.bangkokbank.com/th-TH/Personal/Save-And-Invest/Save/-/media/98199a87fe4d433f8580ce8d3d801a08.ashx',
+        },
+        {
+          type: DocumentType.TERM_SHEET,
+          url: 'https://www.bangkokbank.com/th-TH/Personal/Save-And-Invest/Save/-/media/eb33880346d943cdade39953c659b506.ashx',
+        },
+      ],
+    },
+  ],
 }
 
 export const accountsMap = new Map(
@@ -303,11 +453,10 @@ export const accountsMap = new Map(
     .map((account) => [account.code, account]),
 )
 
-export const accountsList = Object.entries(accounts)
-  .flatMap(([bankCode, accounts]) =>
+export const accountsList = Object.entries(accounts).flatMap(
+  ([bankCode, accounts]) =>
     accounts.map((account) => ({ ...account, bank: bankCode as BankCode })),
-  )
-  .sort((a, b) => a.id - b.id)
+)
 
 export const sortedOriginalAccounts = accountsList
   .map((account) => {

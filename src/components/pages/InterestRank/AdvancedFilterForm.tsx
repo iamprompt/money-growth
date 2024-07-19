@@ -259,7 +259,7 @@ const AdvancedFilterForm = forwardRef<
 
                   return (
                     <div
-                      key={account.id}
+                      key={account.code}
                       className="p-2 flex justify-between items-center"
                     >
                       <label
