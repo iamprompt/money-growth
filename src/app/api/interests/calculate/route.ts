@@ -8,7 +8,7 @@ const bodySchema = z.object({
     z.object({
       productCode: z.string(),
       bonus: z.boolean().optional(),
-      enable: z.boolean().default(true).optional(),
+      enabled: z.boolean().default(true).optional(),
     }),
   ),
 })
@@ -23,7 +23,7 @@ export const POST = async (request: Request) => {
         return acc
       }, {}),
       exclude: accounts
-        .filter(({ enable }) => !enable)
+        .filter(({ enabled }) => !enabled)
         .map(({ productCode }) => productCode),
     })
 

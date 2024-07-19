@@ -21,13 +21,17 @@ import { Button } from '@/components/ui/button'
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerFooter,
+  DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetFooter,
+  SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
@@ -88,7 +92,7 @@ AdvancedFilterButton.displayName = 'AdvancedFilterButton'
 const accountSchema = z.object({
   productCode: z.string(),
   bonus: z.boolean().optional(),
-  enable: z.boolean().default(true).optional(),
+  enabled: z.boolean().default(true).optional(),
 })
 
 type Account = z.infer<typeof accountSchema>
@@ -112,6 +116,10 @@ const AdvancedFilterDrawer = ({
         <AdvancedFilterButton />
       </DrawerTrigger>
       <DrawerContent className="px-4 h-3/4 flex flex-col justify-between">
+        <DrawerTitle className="sr-only">ตัวกรองขั้นสูง</DrawerTitle>
+        <DrawerDescription className="sr-only">
+          ตัวกรองขั้นสูง
+        </DrawerDescription>
         <AdvancedFilterForm
           ref={filterFormRef}
           className="mt-6 mb-4 overflow-y-scroll"
@@ -143,6 +151,8 @@ const AdvancedFilterSheet = ({
         <AdvancedFilterButton />
       </SheetTrigger>
       <SheetContent className="flex flex-col">
+        <SheetTitle className="sr-only">ตัวกรองขั้นสูง</SheetTitle>
+        <SheetDescription className="sr-only">ตัวกรองขั้นสูง</SheetDescription>
         <AdvancedFilterForm
           ref={filterFormRef}
           className="overflow-y-scroll h-full flex-1"
@@ -204,7 +214,7 @@ const AdvancedFilterForm = forwardRef<
 
           const bank = banks[bankCode as BankCode]
           const isBankEnable = accounts.some(
-            (account) => accountPreferences.get(account.code)?.enable ?? true,
+            (account) => accountPreferences.get(account.code)?.enabled ?? true,
           )
 
           return (
@@ -255,7 +265,7 @@ const AdvancedFilterForm = forwardRef<
                       <label
                         htmlFor={`account-switch-${account.code}`}
                         className={
-                          (accountPref?.enable ?? true)
+                          (accountPref?.enabled ?? true)
                             ? 'text-primary'
                             : 'text-gray-500'
                         }
@@ -265,14 +275,14 @@ const AdvancedFilterForm = forwardRef<
                       <div>
                         <Switch
                           id={`account-switch-${account.code}`}
-                          checked={accountPref?.enable ?? true}
+                          checked={accountPref?.enabled ?? true}
                           onCheckedChange={(checked) => {
                             if (!accountPref) {
                               setAccountPreferences(
                                 new Map(
                                   accountPreferences.set(account.code, {
                                     productCode: account.code,
-                                    enable: checked,
+                                    enabled: checked,
                                   }),
                                 ),
                               )
@@ -281,7 +291,7 @@ const AdvancedFilterForm = forwardRef<
                                 new Map(
                                   accountPreferences.set(account.code, {
                                     ...accountPref,
-                                    enable: checked,
+                                    enabled: checked,
                                   }),
                                 ),
                               )

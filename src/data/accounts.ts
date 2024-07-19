@@ -308,3 +308,13 @@ export const accountsList = Object.entries(accounts)
     accounts.map((account) => ({ ...account, bank: bankCode as BankCode })),
   )
   .sort((a, b) => a.id - b.id)
+
+export const sortedOriginalAccounts = accountsList
+  .map((account) => {
+    const highestRate = account.interestRates.reduce(
+      (acc, rate) => (rate.rate > acc ? rate.rate : acc),
+      0,
+    )
+    return { ...account, highestRate }
+  })
+  .sort((a, b) => b.highestRate - a.highestRate)
