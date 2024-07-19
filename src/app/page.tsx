@@ -114,12 +114,31 @@ const Page = () => {
     }
   }, [data])
 
+  useEffect(() => {
+    const preferences = localStorage.getItem('money-growth-account-preferences')
+
+    if (preferences) {
+      try {
+        const jsonPreferences = JSON.parse(preferences)
+        form.setValue('accounts', jsonPreferences)
+      } catch (error) {
+        console.error(error)
+        localStorage.removeItem('money-growth-account-preferences')
+      }
+    }
+  }, [form])
+
   const handleSubmit = useCallback(
     (data: z.input<typeof schema>) => {
       mutateAsync({
         ...data,
         amount: parseFloat(data.amount),
       })
+
+      localStorage.setItem(
+        'money-growth-account-preferences',
+        JSON.stringify(data.accounts),
+      )
     },
     [mutateAsync],
   )
@@ -127,9 +146,7 @@ const Page = () => {
   return (
     <div>
       <div className="max-w-screen-lg mx-auto px-4 py-6">
-        <div className="text-2xl font-bold text-center">
-          มีเงินฝากที่ไหน ดอกเบี้ยสูง?
-        </div>
+        <div className="text-2xl font-bold text-center">Money Growth</div>
 
         <div className="space-y-2 mt-6">
           <div className="space-y-2">
