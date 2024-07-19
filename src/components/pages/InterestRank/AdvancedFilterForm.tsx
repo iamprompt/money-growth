@@ -1,7 +1,6 @@
 'use client'
 
 import { Accordion } from '@radix-ui/react-accordion'
-import { useMediaQuery } from '@uidotdev/usehooks'
 import Image from 'next/image'
 import { forwardRef, useMemo, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
@@ -17,6 +16,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
 import { accounts } from '@/data/accounts'
 import { BankCode, banks } from '@/data/banks'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { cn } from '@/lib/utils'
 
 type AdvancedFilterFormProps = {
