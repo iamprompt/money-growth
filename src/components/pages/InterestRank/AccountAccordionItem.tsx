@@ -81,19 +81,19 @@ export const AccountAccordionItem = ({
               )}
             </div>
             <div>
-              <div className="text-left text-sm sm:text-md flex items-center gap-2">
-                {account.shortName || account.name}
+              <div className="text-left text-sm sm:text-md block gap-2">
+                {account.shortName || account.name}{' '}
                 {isBonus && (
                   <span className="text-xs bg-yellow-200 text-yellow-800 px-1 rounded">
-                    + โบนัส
+                    โบนัส
                   </span>
-                )}
+                )}{' '}
                 {accountDocs[DocumentType.WEBSITE] && (
                   <Link
                     href={accountDocs[DocumentType.WEBSITE].url || '#'}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:text-gray-500"
+                    className="hover:text-gray-500 inline-block"
                   >
                     <FaExternalLinkAlt className="size-3" />
                   </Link>
