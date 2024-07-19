@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { AdvancedFilterTrigger } from '@/components/pages/InterestRank'
 import {
   Accordion,
   AccordionContent,
@@ -33,16 +34,24 @@ const schema = z.object({
       return parseFloat(value.replace(/,/g, ''))
     })
     .refine((value) => value > 0),
+  accounts: z.array(
+    z.object({
+      productCode: z.string(),
+      bonus: z.boolean().optional(),
+      enable: z.boolean().default(true).optional(),
+    }),
+  ),
 })
 
 const Page = () => {
   const list = accountsList
 
   const form = useForm({
+    resolver: zodResolver(schema),
     defaultValues: {
       amount: '',
+      accounts: [],
     },
-    resolver: zodResolver(schema),
   })
 
   const { data, isPending, mutateAsync } = useMutation<
@@ -121,7 +130,7 @@ const Page = () => {
             <div>
               <Form {...form}>
                 <form
-                  className="flex items-end gap-4 w-full"
+                  className="flex flex-col sm:flex-row sm:items-end gap-4 w-full"
                   onSubmit={form.handleSubmit(handleSubmit, console.log)}
                 >
                   <FormField
@@ -158,7 +167,12 @@ const Page = () => {
                     }}
                   />
 
-                  <Button type="submit">คำนวณ</Button>
+                  <div className="flex gap-4 w-full sm:w-auto">
+                    <Button className="w-full" type="submit">
+                      คำนวณ
+                    </Button>
+                    <AdvancedFilterTrigger />
+                  </div>
                 </form>
               </Form>
             </div>
@@ -193,43 +207,46 @@ const Page = () => {
                     className="border rounded-lg overflow-hidden"
                     value={account.code}
                   >
-                    <AccordionTrigger className="flex justify-between items-center">
-                      <div className="flex items-center gap-3">
-                        <div
-                          className="size-10 rounded-md border shrink-0"
-                          style={{ backgroundColor: bank.icon?.bgColor }}
-                        >
-                          {bank.icon && (
-                            <Image
-                              src={bank.icon.path}
-                              alt={banks[account.bank].nameTh}
-                              width={40}
-                              height={40}
-                            />
-                          )}
+                    <AccordionTrigger>
+                      <div className="flex justify-between flex-1">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className="size-10 rounded-md border shrink-0"
+                            style={{ backgroundColor: bank.icon?.bgColor }}
+                          >
+                            {bank.icon && (
+                              <Image
+                                src={bank.icon.path}
+                                alt={banks[account.bank].nameTh}
+                                width={40}
+                                height={40}
+                              />
+                            )}
+                          </div>
+                          <div>
+                            <div className="text-left text-md">
+                              {account.shortName || account.name}
+                            </div>
+                            <div className="text-left font-light text-xs text-gray-400">
+                              {banks[account.bank].nameTh}
+                            </div>
+                          </div>
                         </div>
                         <div>
-                          <div className="text-left text-md">
-                            {account.shortName || account.name}
+                          <div className="text-right text-md">
+                            ฿
+                            {interest.amount.toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
+                            })}
                           </div>
-                          <div className="text-left font-light text-xs text-gray-400">
-                            {banks[account.bank].nameTh}
+                          <div className="text-right font-light text-xs text-gray-400">
+                            ดอกเบี้ยเฉลี่ย {interest.average.toFixed(2)}% ต่อปี
+                            (
+                            {interest.interest.toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
+                            })}{' '}
+                            บาท)
                           </div>
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-right text-md">
-                          ฿
-                          {interest.amount.toLocaleString(undefined, {
-                            minimumFractionDigits: 2,
-                          })}
-                        </div>
-                        <div className="text-right font-light text-xs text-gray-400">
-                          ดอกเบี้ยเฉลี่ย {interest.average.toFixed(2)}% ต่อปี (
-                          {interest.interest.toLocaleString(undefined, {
-                            minimumFractionDigits: 2,
-                          })}{' '}
-                          บาท)
                         </div>
                       </div>
                     </AccordionTrigger>

@@ -272,7 +272,7 @@ export const calculateCombinedInterest = (
 
     const { interests: computedInterests } = calculateCombinedInterest(
       remainingMap[highestProductCode],
-      { days, daysInYear, bonus, products },
+      { days, daysInYear, bonus, products, exclude },
     )
 
     sortedInterestAccounts.push(...computedInterests)
