@@ -203,6 +203,9 @@ const AdvancedFilterForm = forwardRef<
           if (!accounts.length) return null
 
           const bank = banks[bankCode as BankCode]
+          const isBankEnable = accounts.some(
+            (account) => accountPreferences.get(account.code)?.enable ?? true,
+          )
 
           return (
             <AccordionItem
@@ -213,8 +216,13 @@ const AdvancedFilterForm = forwardRef<
               <AccordionTrigger className="p-2 flex gap-2 border-b">
                 <div className="flex items-center gap-2">
                   <div
-                    className="size-6 rounded-full border shrink-0"
-                    style={{ backgroundColor: bank.icon?.bgColor }}
+                    className={cn(
+                      'size-6 rounded-full border shrink-0',
+                      !isBankEnable && 'grayscale',
+                    )}
+                    style={{
+                      backgroundColor: bank.icon?.bgColor,
+                    }}
                   >
                     {bank.icon && (
                       <Image
@@ -225,7 +233,12 @@ const AdvancedFilterForm = forwardRef<
                       />
                     )}
                   </div>
-                  <div className="flex flex-col">
+                  <div
+                    className={cn(
+                      'flex flex-col',
+                      !isBankEnable && 'text-gray-500',
+                    )}
+                  >
                     <span className="font-medium">{bank.nameTh}</span>
                   </div>
                 </div>
@@ -239,9 +252,19 @@ const AdvancedFilterForm = forwardRef<
                       key={account.id}
                       className="p-2 flex justify-between items-center"
                     >
-                      <div>{account.shortName || account.name}</div>
+                      <label
+                        htmlFor={`account-switch-${account.code}`}
+                        className={
+                          (accountPref?.enable ?? true)
+                            ? 'text-primary'
+                            : 'text-gray-500'
+                        }
+                      >
+                        {account.shortName || account.name}
+                      </label>
                       <div>
                         <Switch
+                          id={`account-switch-${account.code}`}
                           checked={accountPref?.enable ?? true}
                           onCheckedChange={(checked) => {
                             if (!accountPref) {
