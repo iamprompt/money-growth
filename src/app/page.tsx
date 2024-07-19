@@ -216,10 +216,10 @@ const Page = () => {
                     value={account.code}
                   >
                     <AccordionTrigger>
-                      <div className="flex justify-between flex-1">
+                      <div className="flex justify-between flex-1 items-center">
                         <div className="flex items-center gap-3">
                           <div
-                            className="size-10 rounded-md border shrink-0"
+                            className="size-8 sm:size-10 rounded-md border shrink-0"
                             style={{ backgroundColor: bank.icon?.bgColor }}
                           >
                             {bank.icon && (
@@ -232,28 +232,27 @@ const Page = () => {
                             )}
                           </div>
                           <div>
-                            <div className="text-left text-md">
+                            <div className="text-left text-sm sm:text-md">
                               {account.shortName || account.name}
                             </div>
-                            <div className="text-left font-light text-xs text-gray-400">
+                            <div className="text-left font-light text-[10px] sm:text-xs text-gray-400">
                               {banks[account.bank].nameTh}
                             </div>
                           </div>
                         </div>
                         <div>
-                          <div className="text-right text-md">
+                          <div className="text-right text-sm sm:text-md">
                             ฿
                             {interest.amount.toLocaleString(undefined, {
                               minimumFractionDigits: 2,
                             })}
                           </div>
-                          <div className="text-right font-light text-xs text-gray-400">
-                            ดอกเบี้ยเฉลี่ย {interest.average.toFixed(2)}% ต่อปี
-                            (
+                          <div className="text-right font-light text-[10px] sm:text-xs text-gray-400">
+                            ฿
                             {interest.interest.toLocaleString(undefined, {
                               minimumFractionDigits: 2,
                             })}{' '}
-                            บาท)
+                            ({interest.average.toFixed(2)}% ต่อปี)
                           </div>
                         </div>
                       </div>
@@ -354,7 +353,7 @@ const Page = () => {
               })}
             </Accordion>
 
-            <div className="flex items-center justify-between p-4 border border-border rounded-lg my-4">
+            <div className="flex flex-col sm:flex-row gap-2 items-center justify-between p-4 border border-border rounded-lg my-4">
               <div>
                 <div className="text-xl font-light">
                   รวมเงินฝาก{' '}
@@ -367,11 +366,11 @@ const Page = () => {
                   )}
                 </div>
               </div>
-              <div>
-                <div className="text-xl font-semibold text-right">
+              <div className="text-center sm:text-right">
+                <div className="text-xl font-semibold">
                   ดอกเบี้ยเฉลี่ย {data?.interestAverage.toFixed(2)}% ต่อปี
                 </div>
-                <div className="text-md font-light text-gray-400 text-right">
+                <div className="text-md font-light text-gray-400">
                   จะได้รับดอกเบี้ยประมาณ{' '}
                   {data?.totalInterest.toLocaleString(undefined, {
                     minimumFractionDigits: 2,
