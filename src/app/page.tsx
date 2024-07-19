@@ -58,6 +58,7 @@ type CalculateInterestResponse = {
     average: number
     remaining: number
     amount: number
+    bonus?: boolean
   }[]
   interestAverage: number
   remaining: number

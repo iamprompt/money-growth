@@ -18,9 +18,8 @@ export const POST = async (request: Request) => {
     const { amount, accounts } = bodySchema.parse(await request.json())
 
     const interest = calculateCombinedInterest(amount, {
-      bonus: accounts.reduce((acc, { productCode, bonus }) => {
-        if (bonus === false) return { ...acc, [productCode]: false }
-        return acc
+      bonus: accounts.reduce((acc, { productCode, bonus = false }) => {
+        return { ...acc, [productCode]: bonus }
       }, {}),
       exclude: accounts
         .filter(({ enabled }) => !enabled)

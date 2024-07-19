@@ -22,6 +22,7 @@ export type Account = {
   interestMethod: InterestMethod
   interestRates: InterestRate[]
   bonusInterestRates?: InterestRate[]
+  bonusConditions?: string
   documents?: Document[]
 }
 
@@ -150,6 +151,8 @@ export const accounts: Record<BankCode, Account[]> = {
         { min: 1500000, max: Infinity, rate: 0.5 },
       ],
       bonusInterestRates: [{ min: 5000, max: 10000, rate: 2.0 }],
+      bonusConditions:
+        'เมื่อสมัครบริการตั้งฝากอัตโนมัติจากแอป TrueMoney Wallet เข้าไปยัง KKP START SAVING ระยะเวลาโปรโมชัน 26 เม.ย. - 25 ก.ค. 2567\nจ่ายดอกเบี้ยโบนัส 31 ส.ค. 2567',
       documents: [
         {
           type: DocumentType.WEBSITE,
@@ -197,6 +200,7 @@ export const accounts: Record<BankCode, Account[]> = {
         { min: 1000000, max: Infinity, rate: 0 },
       ],
       bonusInterestRates: [{ min: 0, max: Infinity, rate: 1.2 }],
+      bonusConditions: 'มียอดฝากมากกว่าถอนในแต่ละเดือน',
       documents: [
         {
           type: DocumentType.WEBSITE,
@@ -352,6 +356,8 @@ export const accounts: Record<BankCode, Account[]> = {
         { min: 2000000, max: Infinity, rate: 1.0 },
       ],
       bonusInterestRates: [{ min: 0, max: 2000000, rate: 0.5 }],
+      bonusConditions:
+        'เมื่อยอดเงินฝากเฉลี่ยของเดือนปัจจุบันมากกว่าหรือเท่ากับ ยอดเงินฝากเฉลี่ยของเดือนที่แล้ว',
       documents: [
         {
           type: DocumentType.WEBSITE,
@@ -456,6 +462,11 @@ export const accountsMap = new Map(
 export const accountsList = Object.entries(accounts).flatMap(
   ([bankCode, accounts]) =>
     accounts.map((account) => ({ ...account, bank: bankCode as BankCode })),
+)
+
+export const bonusAccountLists = accountsList.filter(
+  (account) =>
+    account.bonusInterestRates && account.bonusInterestRates.length > 0,
 )
 
 export const sortedOriginalAccounts = accountsList

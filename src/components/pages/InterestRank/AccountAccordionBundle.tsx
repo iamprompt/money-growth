@@ -13,6 +13,7 @@ type InterestByAccount = {
   amount: number
   average: number
   remaining: number
+  bonus?: boolean
 }
 
 type AccountAccordionBundleProps = {
@@ -66,6 +67,7 @@ export const AccountAccordionBundle = ({
                 average: interest.average,
               }}
               steps={interest.steps}
+              isBonus={interest.bonus}
             />
           )
         })}

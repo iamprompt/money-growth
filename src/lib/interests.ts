@@ -202,6 +202,7 @@ type CalculatedAccount = {
   average: number
   remaining: number
   amount: number
+  bonus?: boolean
 }
 
 export const calculateCombinedInterest = (
@@ -268,6 +269,10 @@ export const calculateCombinedInterest = (
       ),
       remaining: remainingMap[highestProductCode],
       amount: computedAmountMap[highestProductCode],
+      bonus:
+        typeof bonus === 'boolean'
+          ? bonus
+          : bonus?.[highestProductCode] || false,
     })
 
     const { interests: computedInterests } = calculateCombinedInterest(
