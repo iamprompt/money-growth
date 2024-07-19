@@ -150,7 +150,7 @@ const Page = () => {
                           <FormControl>
                             <Input
                               {...field}
-                              inputMode="numeric"
+                              inputMode="decimal"
                               onChange={(e) => {
                                 let value = e.target.value
 
