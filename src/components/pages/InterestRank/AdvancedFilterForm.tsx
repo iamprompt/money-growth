@@ -74,7 +74,7 @@ const AdvancedFilterSheet = ({ className }: AdvancedFilterFormProps) => {
         <AdvancedFilterButton />
       </SheetTrigger>
       <SheetContent>
-        <AdvancedFilterForm />
+        <AdvancedFilterForm className="overflow-y-scroll h-full" />
       </SheetContent>
     </Sheet>
   )
