@@ -3,6 +3,8 @@ import '@/styles/globals.css'
 import type { Metadata, Viewport } from 'next'
 import { ReactNode } from 'react'
 
+import { Footer } from '@/components/Footer'
+
 import { Providers } from './providers'
 
 export const metadata: Metadata = {
@@ -19,7 +21,10 @@ const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
   return (
     <html lang="th">
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   )
