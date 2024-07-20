@@ -1,3 +1,5 @@
+import { Channel } from '@/constants/banks'
+
 export enum BankCode {
   BBL = 'bbl',
   KBANK = 'kbank',
@@ -16,6 +18,11 @@ export enum BankCode {
   BAAC = 'baac',
 }
 
+export type BankChannel = {
+  type: Channel
+  uri: string
+}
+
 export type Bank = {
   code: string
   color: `#${string}`
@@ -24,6 +31,8 @@ export type Bank = {
   nameTh: string
   nameEn: string
   swiftCode: string
+  website?: string
+  channels?: BankChannel[]
   icon?: {
     path: string
     bgColor?: `#${string}`
@@ -39,6 +48,21 @@ export const banks: Record<BankCode, Bank> = {
     swiftCode: 'BKKBTHBK',
     officialNameTh: 'บริษัท ธนาคารกรุงเทพ จำกัด (มหาชน)',
     nameTh: 'ธนาคารกรุงเทพ',
+    website: 'https://www.bangkokbank.com/th-TH/',
+    channels: [
+      {
+        type: Channel.BRANCH,
+        uri: 'https://www.bangkokbank.com/th-TH/Locate-Us',
+      },
+      {
+        type: Channel.CALL_CENTER,
+        uri: 'tel:1333',
+      },
+      {
+        type: Channel.APP,
+        uri: 'https://bblmobile.onelink.me/xJQX/563aa053',
+      },
+    ],
     icon: {
       path: '/images/banks/bbl.svg',
       bgColor: '#0064FF',
@@ -52,6 +76,21 @@ export const banks: Record<BankCode, Bank> = {
     swiftCode: 'KASITHBK,',
     officialNameTh: 'บริษัท ธนาคารกสิกรไทย จำกัด (มหาชน)',
     nameTh: 'ธนาคารกสิกรไทย',
+    website: 'https://www.kasikornbank.com/th/personal',
+    channels: [
+      {
+        type: Channel.BRANCH,
+        uri: 'https://www.kasikornbank.com/th/branch/Pages/index.aspx',
+      },
+      {
+        type: Channel.CALL_CENTER,
+        uri: 'tel:+6628888888,02',
+      },
+      {
+        type: Channel.APP,
+        uri: 'https://www.kasikornbank.com/th/apply/kplus/pages/qr_download.aspx',
+      },
+    ],
     icon: {
       path: '/images/banks/kbank.svg',
       bgColor: '#FFFFFF',
@@ -65,6 +104,21 @@ export const banks: Record<BankCode, Bank> = {
     swiftCode: 'KRTHTHBK',
     officialNameTh: 'บริษัท ธนาคารกรุงไทย จำกัด (มหาชน)',
     nameTh: 'ธนาคารกรุงไทย',
+    website: 'https://krungthai.com/th/personal',
+    channels: [
+      {
+        type: Channel.BRANCH,
+        uri: 'https://krungthai.com/th/contact-us/ktb-location',
+      },
+      {
+        type: Channel.CALL_CENTER,
+        uri: 'tel:+6621111111',
+      },
+      {
+        type: Channel.APP,
+        uri: 'https://www.ktb.co.th/th/about-ktb/KrungthaiApp',
+      },
+    ],
     icon: {
       path: '/images/banks/ktb.svg',
       bgColor: '#01A6E6',
@@ -78,6 +132,21 @@ export const banks: Record<BankCode, Bank> = {
     swiftCode: 'SICOTHBK',
     officialNameTh: 'บริษัท ธนาคารไทยพาณิชย์ จำกัด (มหาชน)',
     nameTh: 'ธนาคารไทยพาณิชย์',
+    website: 'https://krungthai.com/th/personal',
+    channels: [
+      {
+        type: Channel.BRANCH,
+        uri: 'https://www.scb.co.th/th/personal-banking/tools/services-locator.html',
+      },
+      {
+        type: Channel.CALL_CENTER,
+        uri: 'tel:+6627777777',
+      },
+      {
+        type: Channel.APP,
+        uri: 'https://info.scb.co.th/scbeasy/easy_app_link.html?URI=scbeasy://lifestylelanding&URL=https://www.scb.co.th/th/personal-banking/digital-banking/scb-easy/get-start.html',
+      },
+    ],
     icon: {
       path: '/images/banks/scb.svg',
       bgColor: '#462279',
@@ -91,6 +160,21 @@ export const banks: Record<BankCode, Bank> = {
     swiftCode: 'UBOBTHBK',
     officialNameTh: 'บริษัท ธนาคาร ซีไอเอ็มบี ไทย จำกัด (มหาชน)',
     nameTh: 'ธนาคารซีไอเอ็มบีไทย',
+    website: 'https://www.cimbthai.com/th/personal/home.html',
+    channels: [
+      {
+        type: Channel.BRANCH,
+        uri: 'https://www.cimbthai.com/th/personal/help-support/locate-us.html',
+      },
+      {
+        type: Channel.CALL_CENTER,
+        uri: 'tel:+6626267777',
+      },
+      {
+        type: Channel.APP,
+        uri: 'https://click.cimbthai.com/VyQd/tj5s9jl6?af_qr=c',
+      },
+    ],
     icon: {
       path: '/images/banks/cimb.svg',
       bgColor: '#790008',
@@ -104,6 +188,21 @@ export const banks: Record<BankCode, Bank> = {
     swiftCode: 'UOVBTHBK',
     officialNameTh: 'บริษัท ธนาคารยูโอบี จำกัด (มหาชน)',
     nameTh: 'ธนาคารยูโอบี',
+    website: 'https://www.uob.co.th/personal/index.page',
+    channels: [
+      {
+        type: Channel.BRANCH,
+        uri: 'https://www.uob.co.th/personal/location/locations-line.page',
+      },
+      {
+        type: Channel.CALL_CENTER,
+        uri: 'tel:+6622851555',
+      },
+      {
+        type: Channel.APP,
+        uri: 'https://uobtmrwdigith.onelink.me/tkbU',
+      },
+    ],
     icon: {
       path: '/images/banks/uob.svg',
       bgColor: '#005CB9',
@@ -117,6 +216,21 @@ export const banks: Record<BankCode, Bank> = {
     swiftCode: 'AYUDTHBK',
     officialNameTh: 'บริษัท ธนาคารกรุงศรีอยุธยา จำกัด (มหาชน)',
     nameTh: 'ธนาคารกรุงศรีอยุธยา',
+    website: '',
+    channels: [
+      {
+        type: Channel.BRANCH,
+        uri: 'https://www.krungsri.com/th/locations',
+      },
+      {
+        type: Channel.CALL_CENTER,
+        uri: 'tel:1572',
+      },
+      {
+        type: Channel.APP,
+        uri: 'https://www.krungsri.com/th/personal/digital-banking/kma/home',
+      },
+    ],
     icon: {
       path: '/images/banks/bay.svg',
       bgColor: '#6F5F5E',
@@ -130,6 +244,21 @@ export const banks: Record<BankCode, Bank> = {
     swiftCode: 'GSBATHBK',
     officialNameTh: 'ธนาคารออมสิน',
     nameTh: 'ธนาคารออมสิน',
+    website: 'https://www.gsb.or.th/',
+    channels: [
+      {
+        type: Channel.BRANCH,
+        uri: 'https://www.gsb.or.th/contacts/gsbbranch/',
+      },
+      {
+        type: Channel.CALL_CENTER,
+        uri: 'tel:1115',
+      },
+      {
+        type: Channel.APP,
+        uri: 'https://www.gsb.or.th/online_service/mymo/',
+      },
+    ],
     icon: {
       path: '/images/banks/gsb.svg',
       bgColor: '#EC008C',
@@ -143,6 +272,21 @@ export const banks: Record<BankCode, Bank> = {
     swiftCode: 'GOHUTHB1',
     officialNameTh: 'ธนาคารอาคารสงเคราะห์',
     nameTh: 'ธนาคารอาคารสงเคราะห์',
+    website: 'https://www.ghbank.co.th/',
+    channels: [
+      {
+        type: Channel.BRANCH,
+        uri: 'https://www.ghbank.co.th/contact/branch',
+      },
+      {
+        type: Channel.CALL_CENTER,
+        uri: 'tel:+6626459000',
+      },
+      {
+        type: Channel.APP,
+        uri: 'https://www.ghbank.co.th/electronic-services/application/ghb-all-gen',
+      },
+    ],
     icon: {
       path: '/images/banks/ghb.svg',
       bgColor: '#F7941E',
@@ -156,6 +300,21 @@ export const banks: Record<BankCode, Bank> = {
     swiftCode: 'TFPCTHB1',
     officialNameTh: 'บริษัท ธนาคารทิสโก้ จำกัด (มหาชน)',
     nameTh: 'ธนาคารทิสโก้',
+    website: 'https://www.tisco.co.th/th/personal.html',
+    channels: [
+      {
+        type: Channel.BRANCH,
+        uri: 'https://www.tisco.co.th/th/contact-us/branch.html',
+      },
+      {
+        type: Channel.CALL_CENTER,
+        uri: 'tel:+6626336000',
+      },
+      {
+        type: Channel.APP,
+        uri: 'https://www.tisco.co.th/th/personal/service/mywealth.html',
+      },
+    ],
     icon: {
       path: '/images/banks/tisco.svg',
       bgColor: '#FFFFFF',
@@ -169,6 +328,21 @@ export const banks: Record<BankCode, Bank> = {
     swiftCode: 'KKPBTHBK',
     officialNameTh: 'บริษัท ธนาคารเกียรตินาคินภัทร จำกัด (มหาชน)',
     nameTh: 'ธนาคารเกียรตินาคินภัทร',
+    website: 'https://bank.kkpfg.com/th/home',
+    channels: [
+      {
+        type: Channel.BRANCH,
+        uri: 'https://bank.kkpfg.com/th/branch',
+      },
+      {
+        type: Channel.CALL_CENTER,
+        uri: 'tel:+66216555555',
+      },
+      {
+        type: Channel.APP,
+        uri: 'https://bank.kkpfg.com/th/personal-banking/digital-banking/kkp-mobile',
+      },
+    ],
     icon: {
       path: '/images/banks/kkp.svg',
       bgColor: '#635F98',
@@ -182,6 +356,21 @@ export const banks: Record<BankCode, Bank> = {
     swiftCode: 'THCETHB1',
     officialNameTh: 'บริษัท ธนาคารไทยเครดิต จำกัด (มหาชน)',
     nameTh: 'ธนาคารไทยเครดิต',
+    website: 'https://www.thaicreditbank.com/th',
+    channels: [
+      {
+        type: Channel.BRANCH,
+        uri: 'https://www.thaicreditbank.com/th/%E0%B8%AA%E0%B8%B2%E0%B8%82%E0%B8%B2%E0%B8%98%E0%B8%99%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%A3',
+      },
+      {
+        type: Channel.CALL_CENTER,
+        uri: 'tel:+6626975454',
+      },
+      {
+        type: Channel.APP,
+        uri: 'https://alpha.thaicreditbank.com/th',
+      },
+    ],
     icon: {
       path: '/images/banks/tcr.svg',
       bgColor: '#FFFFFF',
@@ -195,6 +384,21 @@ export const banks: Record<BankCode, Bank> = {
     swiftCode: 'LAHRTHB2',
     officialNameTh: 'บริษัท ธนาคารแลนด์ แอนด์ เฮ้าส์ จำกัด (มหาชน)',
     nameTh: 'ธนาคารแลนด์ แอนด์ เฮ้าส์',
+    website: 'https://www.lhbank.co.th/th/personal/',
+    channels: [
+      {
+        type: Channel.BRANCH,
+        uri: 'https://www.lhbank.co.th/th/branch-locations/',
+      },
+      {
+        type: Channel.CALL_CENTER,
+        uri: 'tel:1327',
+      },
+      {
+        type: Channel.APP,
+        uri: 'https://www.lhbank.co.th/th/personal/digitalbanking/lhbyou/',
+      },
+    ],
     icon: {
       path: '/images/banks/lhbank.svg',
       bgColor: '#FFFFFF',
@@ -208,6 +412,21 @@ export const banks: Record<BankCode, Bank> = {
     swiftCode: 'TMBKTHBK',
     officialNameTh: 'บริษัท ธนาคารทหารไทยธนชาต จำกัด (มหาชน)',
     nameTh: 'ธนาคารทหารไทยธนชาต',
+    website: 'https://www.ttbbank.com/th',
+    channels: [
+      {
+        type: Channel.BRANCH,
+        uri: 'https://www.ttbbank.com/th/contact/location/branch',
+      },
+      {
+        type: Channel.CALL_CENTER,
+        uri: 'tel:1428',
+      },
+      {
+        type: Channel.APP,
+        uri: 'https://www.ttbbank.com/th/ttb-touch',
+      },
+    ],
     icon: {
       path: '/images/banks/ttb.svg',
       bgColor: '#FFFFFF',
@@ -221,6 +440,21 @@ export const banks: Record<BankCode, Bank> = {
     nameEn: 'Bank for Agriculture and Agricultural Cooperatives',
     nameTh: 'ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร',
     swiftCode: 'BAABTHBK',
+    website: 'https://www.baac.or.th/th/',
+    channels: [
+      {
+        type: Channel.BRANCH,
+        uri: 'https://www.baac.or.th/th/content-contact.php?content_group_sub=7',
+      },
+      {
+        type: Channel.CALL_CENTER,
+        uri: 'tel:+6625550555',
+      },
+      {
+        type: Channel.APP,
+        uri: 'https://www.baac.or.th/th/content-product.php?content_group_semi=0015&content_group_sub=8&content_group=4&inside=1',
+      },
+    ],
     icon: {
       path: '/images/banks/baac.svg',
       bgColor: '#2B3788',

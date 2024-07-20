@@ -1,0 +1,6 @@
+export enum Channel {
+  BRANCH = 'BRANCH',
+  CALL_CENTER = 'CALL_CENTER',
+  APP = 'APP',
+  INTERNET_BANKING = 'INTERNET_BANKING',
+}
