@@ -1,4 +1,4 @@
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, FileTextIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Fragment, useMemo } from 'react'
@@ -142,26 +142,49 @@ export const AccountAccordionItem = ({
       <AccordionContent className="bg-gray-50 py-3 px-4 transition-all">
         <div className="space-y-4">
           <div>
-            <div className="font-semibold mb-2">
-              ขั้นบันไดดอกเบี้ย
-              {InterestMethodMap[account.interestMethod]
-                ? ` (${InterestMethodMap[account.interestMethod]})`
-                : ''}{' '}
-              {accountDocs[DocumentType.WEBSITE] && (
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Link
-                      href={accountDocs[DocumentType.WEBSITE].url || '#'}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-gray-500 inline-block"
-                    >
-                      <ExternalLink className="size-3.5" />
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent className="max-w-96">เว็บไซต์</TooltipContent>
-                </Tooltip>
-              )}
+            <div className="font-semibold mb-2 flex items-center">
+              <div className="mr-1">
+                ขั้นบันไดดอกเบี้ย
+                {InterestMethodMap[account.interestMethod]
+                  ? ` (${InterestMethodMap[account.interestMethod]})`
+                  : ''}
+              </div>
+              <div className="flex items-center gap-1">
+                {accountDocs[DocumentType.WEBSITE] && (
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Link
+                        href={accountDocs[DocumentType.WEBSITE].url || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-gray-500 inline-block"
+                      >
+                        <ExternalLink className="size-3.5" />
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-96">
+                      เว็บไซต์
+                    </TooltipContent>
+                  </Tooltip>
+                )}
+                {accountDocs[DocumentType.SALES_SHEET] && (
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Link
+                        href={accountDocs[DocumentType.SALES_SHEET].url || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-gray-500 inline-block"
+                      >
+                        <FileTextIcon className="size-3.5" />
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-96">
+                      ตารางเปิดเผยข้อมูลผลิตภัณฑ์
+                    </TooltipContent>
+                  </Tooltip>
+                )}
+              </div>
             </div>
             <div className="text-xs border rounded-lg w-full overflow-hidden overflow-x-scroll md:no-scrollbar">
               <table className="w-full table-fixed">
