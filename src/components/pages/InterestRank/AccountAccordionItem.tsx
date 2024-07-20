@@ -1,13 +1,18 @@
+import { ExternalLink } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Fragment, useMemo } from 'react'
-import { FaExternalLinkAlt } from 'react-icons/fa'
 
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { DocumentType, InterestMethodMap } from '@/constants/accounts'
 import { Account, Document } from '@/data/accounts'
 import { Bank } from '@/data/banks'
@@ -99,16 +104,6 @@ export const AccountAccordionItem = ({
                   <span className="text-xs bg-yellow-200 text-yellow-800 px-1 rounded">
                     โบนัส
                   </span>
-                )}{' '}
-                {accountDocs[DocumentType.WEBSITE] && (
-                  <Link
-                    href={accountDocs[DocumentType.WEBSITE].url || '#'}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-gray-500 inline-block"
-                  >
-                    <FaExternalLinkAlt className="size-3" />
-                  </Link>
                 )}
               </div>
               <div className="text-left font-light text-[10px] sm:text-xs text-gray-400">
@@ -146,7 +141,22 @@ export const AccountAccordionItem = ({
               ขั้นบันไดดอกเบี้ย
               {InterestMethodMap[account.interestMethod]
                 ? ` (${InterestMethodMap[account.interestMethod]})`
-                : ''}
+                : ''}{' '}
+              {accountDocs[DocumentType.WEBSITE] && (
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Link
+                      href={accountDocs[DocumentType.WEBSITE].url || '#'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-gray-500 inline-block"
+                    >
+                      <ExternalLink className="size-3.5" />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent className="max-w-96">เว็บไซต์</TooltipContent>
+                </Tooltip>
+              )}
             </div>
             <div className="text-xs border rounded-lg w-full overflow-hidden overflow-x-scroll md:no-scrollbar">
               <table className="w-full table-fixed">

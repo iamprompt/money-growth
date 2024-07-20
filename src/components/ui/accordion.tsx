@@ -25,23 +25,24 @@ const AccordionTrigger = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger> & {
     arrow?: boolean
   }
->(({ className, children, arrow = true, ...props }, ref) => (
-  <AccordionPrimitive.Header className="flex">
-    <AccordionPrimitive.Trigger
-      ref={ref}
-      className={cn(
-        'flex flex-1 items-center justify-between gap-4 py-4 px-4 font-medium transition-all data-[state=open]:border-b [&[data-state=open]>svg.accordion-arrow]:rotate-180',
-        className,
-      )}
-      {...props}
-    >
-      {children}
-      {arrow && (
-        <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 accordion-arrow" />
-      )}
-    </AccordionPrimitive.Trigger>
-  </AccordionPrimitive.Header>
-))
+>(({ className, children, arrow = true, asChild = false, ...props }, ref) => {
+  return (
+    <AccordionPrimitive.Header className="flex">
+      <AccordionPrimitive.Trigger
+        ref={ref}
+        className={cn(
+          'flex flex-1 items-center justify-between gap-4 py-4 px-4 font-medium transition-all data-[state=open]:border-b [&[data-state=open]>svg.accordion-arrow]:rotate-180',
+          className,
+        )}
+        asChild={asChild}
+        {...props}
+      >
+        {children}
+        {arrow && <AccordionArrow />}
+      </AccordionPrimitive.Trigger>
+    </AccordionPrimitive.Header>
+  )
+})
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName
 
 const AccordionContent = React.forwardRef<
@@ -59,4 +60,14 @@ const AccordionContent = React.forwardRef<
 
 AccordionContent.displayName = AccordionPrimitive.Content.displayName
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger }
+const AccordionArrow = () => (
+  <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 accordion-arrow" />
+)
+
+export {
+  Accordion,
+  AccordionArrow,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+}
