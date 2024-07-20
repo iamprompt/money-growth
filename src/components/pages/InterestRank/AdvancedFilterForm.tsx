@@ -5,6 +5,7 @@ import { Info } from 'lucide-react'
 import Image from 'next/image'
 import {
   forwardRef,
+  useCallback,
   useEffect,
   useImperativeHandle,
   useRef,
@@ -207,6 +208,33 @@ const AdvancedFilterForm = forwardRef<
     setAccountPreferences(preferencesMap)
   }, [accountPrefs])
 
+  const handleAccountEnabledChange = useCallback(
+    (productCode: string) => (enabled: boolean) => {
+      const accountPref = accountPreferences.get(productCode)
+
+      if (!accountPref) {
+        setAccountPreferences(
+          new Map(
+            accountPreferences.set(productCode, {
+              productCode,
+              enabled,
+            }),
+          ),
+        )
+      } else {
+        setAccountPreferences(
+          new Map(
+            accountPreferences.set(productCode, {
+              ...accountPref,
+              enabled,
+            }),
+          ),
+        )
+      }
+    },
+    [accountPreferences],
+  )
+
   return (
     <div className={cn(className)}>
       <div>
@@ -224,10 +252,11 @@ const AdvancedFilterForm = forwardRef<
             if (!accounts.length) return null
 
             const bank = banks[bankCode as BankCode]
-            const isBankEnable = accounts.some(
+            const enabledAccounts = accounts.filter(
               (account) =>
                 accountPreferences.get(account.code)?.enabled ?? true,
             )
+            const isBankEnable = enabledAccounts.length > 0
 
             return (
               <AccordionItem
@@ -236,36 +265,61 @@ const AdvancedFilterForm = forwardRef<
                 value={`advanced_filter_${bankCode}`}
               >
                 <AccordionTrigger className="p-2 flex gap-2 border-b">
-                  <div className="flex items-center gap-2">
-                    <div
-                      className={cn(
-                        'size-6 rounded-full border shrink-0',
-                        !isBankEnable && 'grayscale',
-                      )}
-                      style={{
-                        backgroundColor: bank.icon?.bgColor,
-                      }}
-                    >
-                      {bank.icon && (
-                        <Image
-                          src={bank.icon.path}
-                          alt={bank.nameTh}
-                          width={40}
-                          height={40}
-                        />
-                      )}
+                  <div className="flex items-center justify-between flex-1">
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={cn(
+                          'size-6 rounded-full border shrink-0',
+                          !isBankEnable && 'grayscale',
+                        )}
+                        style={{
+                          backgroundColor: bank.icon?.bgColor,
+                        }}
+                      >
+                        {bank.icon && (
+                          <Image
+                            src={bank.icon.path}
+                            alt={bank.nameTh}
+                            width={40}
+                            height={40}
+                          />
+                        )}
+                      </div>
+                      <div
+                        className={cn(
+                          'flex flex-col text-left',
+                          !isBankEnable && 'text-gray-500',
+                        )}
+                      >
+                        <span className="font-medium">{bank.nameTh}</span>
+                      </div>
                     </div>
-                    <div
+                    <span
                       className={cn(
-                        'flex flex-col text-left',
-                        !isBankEnable && 'text-gray-500',
+                        'text-xs bg-green-200 text-green-800 px-1 rounded font-normal tabular-nums',
+                        !isBankEnable && 'text-gray-500 bg-gray-200',
                       )}
                     >
-                      <span className="font-medium">{bank.nameTh}</span>
-                    </div>
+                      {enabledAccounts.length}/{accounts.length}
+                    </span>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="p-0">
+                  <div className="flex justify-end my-2">
+                    <Button
+                      size="sm"
+                      onClick={() => {
+                        for (const account of accounts) {
+                          handleAccountEnabledChange(account.code)(
+                            isBankEnable ? false : true,
+                          )
+                        }
+                      }}
+                      className="text-xs h-auto py-1"
+                    >
+                      {isBankEnable ? 'ปิด' : 'เปิด'}ทั้งหมด
+                    </Button>
+                  </div>
                   {accounts.map((account) => {
                     const accountPref = accountPreferences.get(account.code)
 
@@ -294,27 +348,9 @@ const AdvancedFilterForm = forwardRef<
                           <Switch
                             id={`account-switch-${account.code}`}
                             checked={accountPref?.enabled ?? true}
-                            onCheckedChange={(checked) => {
-                              if (!accountPref) {
-                                setAccountPreferences(
-                                  new Map(
-                                    accountPreferences.set(account.code, {
-                                      productCode: account.code,
-                                      enabled: checked,
-                                    }),
-                                  ),
-                                )
-                              } else {
-                                setAccountPreferences(
-                                  new Map(
-                                    accountPreferences.set(account.code, {
-                                      ...accountPref,
-                                      enabled: checked,
-                                    }),
-                                  ),
-                                )
-                              }
-                            }}
+                            onCheckedChange={handleAccountEnabledChange(
+                              account.code,
+                            )}
                           />
                         </div>
                       </div>
