@@ -67,3 +67,9 @@ export const mergeInterestRates = (code: string, bonus: boolean = false) => {
 
   return extractedInterestRates
 }
+
+export const getHighestRate = (rates: InterestRate[]) => {
+  return rates.reduce((acc, rate) => {
+    return rate.rate > acc ? rate.rate : acc
+  }, -Infinity)
+}

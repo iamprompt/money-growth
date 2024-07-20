@@ -45,6 +45,8 @@ import {
 import { accounts, bonusAccountLists } from '@/data/accounts'
 import { BankCode, banks } from '@/data/banks'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
+import { numerizeDecimal } from '@/lib/number'
+import { getHighestRate } from '@/lib/rates'
 import { cn } from '@/lib/utils'
 
 type AdvancedFilterFormProps = {
@@ -282,7 +284,13 @@ const AdvancedFilterForm = forwardRef<
                                 : 'text-gray-500'
                             }
                           >
-                            {account.shortName || account.name}
+                            {account.shortName || account.name}{' '}
+                            <span className="text-xs bg-yellow-200 text-yellow-800 px-1 rounded">
+                              {numerizeDecimal(
+                                getHighestRate(account.interestRates),
+                              )}
+                              %
+                            </span>
                           </label>
                           <div>
                             <Switch

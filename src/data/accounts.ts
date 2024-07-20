@@ -24,6 +24,10 @@ export type Account = {
   bonusInterestRates?: InterestRate[]
   bonusConditions?: string
   documents?: Document[]
+  icon?: {
+    path: string
+    bgColor?: `#${string}`
+  }
 }
 
 export const accounts: Record<BankCode, Account[]> = {
@@ -129,6 +133,10 @@ export const accounts: Record<BankCode, Account[]> = {
         { min: 10000, max: 1000000, rate: 1.5 },
         { min: 1000000, max: Infinity, rate: 0.5 },
       ],
+      icon: {
+        path: '/images/banks/dime.svg',
+        bgColor: '#5DF591',
+      },
       documents: [
         {
           type: DocumentType.WEBSITE,
@@ -144,6 +152,10 @@ export const accounts: Record<BankCode, Account[]> = {
       code: 'KKP_START_SAVING',
       name: 'บัญชีเงินฝากออมทรัพย์ KKP START SAVING',
       shortName: 'KKP Start Saving',
+      icon: {
+        path: '/images/banks/kkp_tmn.png',
+        bgColor: '#FFF3E9',
+      },
       interestMethod: InterestMethod.STEP_UP,
       interestRates: [
         { min: 0, max: 50000, rate: 2.0 },
@@ -273,6 +285,22 @@ export const accounts: Record<BankCode, Account[]> = {
         {
           type: DocumentType.SALES_SHEET,
           url: 'https://www.ghbank.co.th/uploads/product/sale_sheet/19048_aab1fe21088972538502517a3d612aee0da59349_418.PDF',
+        },
+      ],
+    },
+    {
+      code: 'GHB_ECO_SAVINGS',
+      name: 'GHB Eco Savings',
+      shortName: 'GHB Eco Savings',
+      interestMethod: InterestMethod.WHOLE,
+      interestRates: [
+        { min: 0, max: 5000000, rate: 1.75 },
+        { min: 5000000, max: Infinity, rate: 0.4 },
+      ],
+      documents: [
+        {
+          type: DocumentType.SALES_SHEET,
+          url: 'https://www.ghbank.co.th/uploads/product/sale_sheet/13956_a8efc905ac8ed05febcedb875a1e1d8b35bd09eb_279.PDF',
         },
       ],
     },

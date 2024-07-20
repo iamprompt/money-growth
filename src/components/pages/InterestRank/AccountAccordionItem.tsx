@@ -50,6 +50,10 @@ export const AccountAccordionItem = ({
   highestRate,
   isBonus,
 }: AccountAccordionItemProps) => {
+  const hasBonusRate = useMemo(() => {
+    return !!account.bonusInterestRates && account.bonusInterestRates.length > 0
+  }, [account])
+
   const accountDocs = useMemo(() => {
     const { documents = [] } = account
     return documents.reduce(
@@ -57,6 +61,14 @@ export const AccountAccordionItem = ({
       {} as Record<DocumentType, Document>,
     )
   }, [account])
+
+  const icon = useMemo(() => {
+    if (account.icon && account.icon.path) {
+      return account.icon
+    }
+
+    return bank.icon
+  }, [bank, account])
 
   return (
     <AccordionItem
@@ -69,11 +81,11 @@ export const AccountAccordionItem = ({
           <div className="flex items-center gap-3">
             <div
               className="size-8 sm:size-10 rounded-md border shrink-0"
-              style={{ backgroundColor: bank.icon?.bgColor }}
+              style={{ backgroundColor: icon?.bgColor }}
             >
-              {bank.icon && (
+              {icon && (
                 <Image
-                  src={bank.icon.path}
+                  src={icon.path}
                   alt={bank.nameTh}
                   width={40}
                   height={40}
@@ -83,7 +95,7 @@ export const AccountAccordionItem = ({
             <div>
               <div className="text-left text-sm sm:text-md block gap-2">
                 {account.shortName || account.name}{' '}
-                {isBonus && (
+                {(isBonus || hasBonusRate) && (
                   <span className="text-xs bg-yellow-200 text-yellow-800 px-1 rounded">
                     โบนัส
                   </span>
@@ -221,7 +233,7 @@ export const AccountAccordionItem = ({
             </div>
           </div>
           <div>
-            {isBonus && (
+            {(isBonus || hasBonusRate) && (
               <div className="inline">
                 <span className="font-semibold mb-2">เงื่อนไขโบนัส: </span>
                 <span>{account.bonusConditions}</span>
