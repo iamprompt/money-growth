@@ -13,6 +13,7 @@ export enum BankCode {
   TCR = 'tcr',
   LHB = 'lhb',
   TTB = 'ttb',
+  BAAC = 'baac',
 }
 
 export type Bank = {
@@ -144,7 +145,7 @@ export const banks: Record<BankCode, Bank> = {
     nameTh: 'ธนาคารอาคารสงเคราะห์',
     icon: {
       path: '/images/banks/ghb.svg',
-      bgColor: '#EE3124',
+      bgColor: '#F7941E',
     },
   },
   [BankCode.TISCO]: {
@@ -210,6 +211,19 @@ export const banks: Record<BankCode, Bank> = {
     icon: {
       path: '/images/banks/ttb.svg',
       bgColor: '#FFFFFF',
+    },
+  },
+  [BankCode.BAAC]: {
+    code: '034',
+    color: '#4b9b1d',
+    officialNameEn: 'BANK FOR AGRICULTURE AND AGRICULTURAL COOPERATIVES',
+    officialNameTh: 'ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร',
+    nameEn: 'Bank for Agriculture and Agricultural Cooperatives',
+    nameTh: 'ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร',
+    swiftCode: 'BAABTHBK',
+    icon: {
+      path: '/images/banks/baac.svg',
+      bgColor: '#2B3788',
     },
   },
 }

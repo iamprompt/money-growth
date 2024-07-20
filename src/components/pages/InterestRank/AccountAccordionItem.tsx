@@ -101,7 +101,12 @@ export const AccountAccordionItem = ({
               <div className="text-left text-sm sm:text-md block gap-2">
                 {account.shortName || account.name}{' '}
                 {(isBonus || hasBonusRate) && (
-                  <span className="text-xs bg-yellow-200 text-yellow-800 px-1 rounded">
+                  <span
+                    className={cn(
+                      'text-xs bg-yellow-200 text-yellow-800 px-1 rounded',
+                      !isBonus && 'bg-gray-200 text-gray-800',
+                    )}
+                  >
                     โบนัส
                   </span>
                 )}

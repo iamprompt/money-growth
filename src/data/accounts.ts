@@ -477,6 +477,21 @@ export const accounts: Record<BankCode, Account[]> = {
       ],
     },
   ],
+  [BankCode.BAAC]: [
+    {
+      code: 'BAAC_A_SAVINGS',
+      name: 'A-Savings',
+      shortName: 'A-Savings',
+      interestMethod: InterestMethod.STEP_UP,
+      interestRates: [{ min: 0, max: Infinity, rate: 1.5 }],
+      documents: [
+        {
+          type: DocumentType.SALES_SHEET,
+          url: 'https://www.baac.or.th/file-upload/015204-1-Sale%20Sheet%20%E0%B8%9C%E0%B8%A5%E0%B8%B4%E0%B8%95%E0%B8%A0%E0%B8%B1%E0%B8%93%E0%B8%91%E0%B9%8C%E0%B9%80%E0%B8%87%E0%B8%B4%E0%B8%99%E0%B8%9D%E0%B8%B2%E0%B8%81%E0%B8%AD%E0%B8%AD%E0%B8%A1%E0%B8%97%E0%B8%A3%E0%B8%B1%E0%B8%9E%E0%B8%A2%E0%B9%8C%20A-Savings.pdf',
+        },
+      ],
+    },
+  ],
 }
 
 export const accountsMap = new Map(

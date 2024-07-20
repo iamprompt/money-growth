@@ -257,7 +257,7 @@ const AdvancedFilterForm = forwardRef<
                     </div>
                     <div
                       className={cn(
-                        'flex flex-col',
+                        'flex flex-col text-left',
                         !isBankEnable && 'text-gray-500',
                       )}
                     >
