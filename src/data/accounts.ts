@@ -450,6 +450,30 @@ export const accounts: Record<BankCode, Account[]> = {
         },
       ],
     },
+    {
+      code: 'KBANK_MAKE',
+      name: 'MAKE by KBank',
+      shortName: 'MAKE by KBank',
+      interestMethod: InterestMethod.STEP_UP,
+      interestRates: [
+        { min: 0, max: 500000, rate: 1.5 },
+        { min: 500000, max: Infinity, rate: 0.65 },
+      ],
+      documents: [
+        {
+          type: DocumentType.WEBSITE,
+          url: 'https://makebykbank.kbtg.tech/',
+        },
+        {
+          type: DocumentType.SALES_SHEET,
+          url: 'https://www.kasikornbank.com/th/download/tc/k-esavings-deposit-sales-sheet_th-make-by-kbank.pdf',
+        },
+      ],
+      icon: {
+        path: '/images/banks/make.svg',
+        bgColor: '#FFFFFF',
+      },
+    },
   ],
   [BankCode.BBL]: [
     {
