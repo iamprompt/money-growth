@@ -12,8 +12,6 @@ export const mergeInterestRates = (code: string, bonus: boolean = false) => {
   const { interestRates, bonusInterestRates = [] } = account
 
   for (const interestRate of interestRates) {
-    console.log('RATE', interestRate)
-
     if (bonus) {
       // Bonus Rates that start within the range of the current rate
       const bonusRates = bonusInterestRates.filter(
