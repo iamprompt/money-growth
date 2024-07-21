@@ -325,6 +325,7 @@ export const AccountAccordionItem = ({
                     <Link
                       key={key}
                       href={channelDetail.uri || '#'}
+                      target="_blank"
                       className={cn(
                         'inline-flex items-center gap-1 rounded px-1 bg-gray-200 text-gray-800 text-xs',
                         channelDetail.uri
