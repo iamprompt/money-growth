@@ -14,8 +14,10 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { DocumentType, InterestMethodMap } from '@/constants/accounts'
+import { Channel } from '@/constants/banks'
 import { Account, Document } from '@/data/accounts'
 import { Bank } from '@/data/banks'
+import { getBankChannel } from '@/lib/banks'
 import { numerize, numerizeDecimal } from '@/lib/number'
 import { cn } from '@/lib/utils'
 
@@ -74,6 +76,9 @@ export const AccountAccordionItem = ({
 
     return bank.icon
   }, [bank, account])
+
+  console.log('account', account)
+  console.log('bank', bank)
 
   return (
     <AccordionItem
@@ -141,6 +146,21 @@ export const AccountAccordionItem = ({
       </AccordionTrigger>
       <AccordionContent className="bg-gray-50 py-3 px-4 transition-all">
         <div className="space-y-4">
+          <div>
+            <span className="font-semibold mb-2">สถานะ: </span>
+            <span
+              className={cn(
+                'text-xs px-1 rounded font-normal',
+                account.openAccountStatus === false
+                  ? 'bg-red-200 text-red-800'
+                  : 'bg-green-200 text-green-800',
+              )}
+            >
+              {account.openAccountStatus === false
+                ? 'หมดระยะเวลาการเปิดบัญชี'
+                : 'เปิดบัญชีได้'}
+            </span>
+          </div>
           <div>
             <div className="font-semibold mb-2 flex items-center">
               <div className="mr-1">
@@ -270,14 +290,59 @@ export const AccountAccordionItem = ({
               </table>
             </div>
           </div>
-          <div>
-            {(isBonus || hasBonusRate) && (
-              <div className="inline">
-                <span className="font-semibold mb-2">เงื่อนไขโบนัส: </span>
-                <span>{account.bonusConditions}</span>
-              </div>
-            )}
-          </div>
+          {(isBonus || hasBonusRate) && (
+            <div>
+              <span className="font-semibold mb-2">เงื่อนไขโบนัส: </span>
+              <span>{account.bonusConditions}</span>
+            </div>
+          )}
+          {!!account.openAccountChannels?.length && (
+            <div>
+              <span className="font-semibold">ช่องทางการเปิดบัญชี: </span>
+              <span className="inline-flex gap-1">
+                {account.openAccountChannels.map((channel) => {
+                  const key = `${channel.type}:${channel.key || 'default'}`
+                  const channelDetail = getBankChannel(account.bank!, key)
+
+                  const defaultChannelName = (() => {
+                    switch (channel.type) {
+                      case Channel.BRANCH:
+                        return 'สาขา'
+                      case Channel.CALL_CENTER:
+                        return 'Call Center'
+                      case Channel.APP:
+                        return 'แอปพลิเคชัน'
+                      case Channel.INTERNET_BANKING:
+                        return 'อินเทอร์เน็ตแบงก์กิ้ง'
+                    }
+                  })()
+
+                  if (!channelDetail) {
+                    return null
+                  }
+
+                  return (
+                    <Link
+                      key={key}
+                      href={channelDetail.uri || '#'}
+                      className={cn(
+                        'inline-flex items-center gap-1 rounded px-1 bg-gray-200 text-gray-800 text-xs',
+                        channelDetail.uri
+                          ? 'hover:bg-gray-300'
+                          : 'cursor-not-allowed',
+                        channel.type === Channel.APP &&
+                          'bg-blue-200 text-blue-800 hover:bg-blue-300',
+                        channel.type === Channel.BRANCH &&
+                          'bg-orange-200 text-orange-800 hover:bg-orange-300',
+                      )}
+                    >
+                      {channelDetail.name || defaultChannelName}
+                    </Link>
+                  )
+                })}
+              </span>
+            </div>
+          )}
         </div>
       </AccordionContent>
     </AccordionItem>

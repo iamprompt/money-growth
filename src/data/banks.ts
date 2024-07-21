@@ -20,6 +20,8 @@ export enum BankCode {
 
 export type BankChannel = {
   type: Channel
+  key?: string
+  name?: string
   uri: string
 }
 
@@ -60,6 +62,8 @@ export const banks: Record<BankCode, Bank> = {
       },
       {
         type: Channel.APP,
+        key: 'bangkok_bank_mobile_banking',
+        name: 'Bangkok Bank Mobile Banking',
         uri: 'https://bblmobile.onelink.me/xJQX/563aa053',
       },
     ],
@@ -84,11 +88,26 @@ export const banks: Record<BankCode, Bank> = {
       },
       {
         type: Channel.CALL_CENTER,
+        name: 'K-Contact Center',
         uri: 'tel:+6628888888,02',
       },
       {
         type: Channel.APP,
-        uri: 'https://www.kasikornbank.com/th/apply/kplus/pages/qr_download.aspx',
+        key: 'kplus',
+        name: 'K PLUS',
+        uri: 'https://www.kasikornbank.com/th/kplus',
+      },
+      {
+        type: Channel.APP,
+        key: 'make_by_kbank',
+        name: 'MAKE by KBank',
+        uri: 'https://makebykbank.kbtg.tech/',
+      },
+      {
+        type: Channel.APP,
+        key: 'line_bk',
+        name: 'LINE BK',
+        uri: 'https://www.linebk.com/th/',
       },
     ],
     icon: {
@@ -112,11 +131,14 @@ export const banks: Record<BankCode, Bank> = {
       },
       {
         type: Channel.CALL_CENTER,
+        name: 'Krungthai Contact Center',
         uri: 'tel:+6621111111',
       },
       {
         type: Channel.APP,
-        uri: 'https://www.ktb.co.th/th/about-ktb/KrungthaiApp',
+        key: 'krungthai_next',
+        name: 'Krungthai NEXT',
+        uri: 'https://krungthai.com/th/content/personal/krungthai-next',
       },
     ],
     icon: {
@@ -140,10 +162,13 @@ export const banks: Record<BankCode, Bank> = {
       },
       {
         type: Channel.CALL_CENTER,
+        name: 'SCB Call Center',
         uri: 'tel:+6627777777',
       },
       {
         type: Channel.APP,
+        key: 'scb_easy',
+        name: 'SCB EASY',
         uri: 'https://info.scb.co.th/scbeasy/easy_app_link.html?URI=scbeasy://lifestylelanding&URL=https://www.scb.co.th/th/personal-banking/digital-banking/scb-easy/get-start.html',
       },
     ],
@@ -168,10 +193,13 @@ export const banks: Record<BankCode, Bank> = {
       },
       {
         type: Channel.CALL_CENTER,
+        name: 'CIMB THAI Care Center',
         uri: 'tel:+6626267777',
       },
       {
         type: Channel.APP,
+        key: 'cimb_thai',
+        name: 'CIMB THAI Digital Banking',
         uri: 'https://click.cimbthai.com/VyQd/tj5s9jl6?af_qr=c',
       },
     ],
@@ -196,10 +224,13 @@ export const banks: Record<BankCode, Bank> = {
       },
       {
         type: Channel.CALL_CENTER,
+        name: 'UOB Call Center',
         uri: 'tel:+6622851555',
       },
       {
         type: Channel.APP,
+        key: 'uob_tmrw',
+        name: 'UOB TMRW',
         uri: 'https://uobtmrwdigith.onelink.me/tkbU',
       },
     ],
@@ -228,6 +259,8 @@ export const banks: Record<BankCode, Bank> = {
       },
       {
         type: Channel.APP,
+        key: 'kma',
+        name: 'KMA (Krungsri Mobile App)',
         uri: 'https://www.krungsri.com/th/personal/digital-banking/kma/home',
       },
     ],
@@ -252,10 +285,12 @@ export const banks: Record<BankCode, Bank> = {
       },
       {
         type: Channel.CALL_CENTER,
+        name: 'GSB Contact Center',
         uri: 'tel:1115',
       },
       {
         type: Channel.APP,
+        name: 'MyMo by GSB',
         uri: 'https://www.gsb.or.th/online_service/mymo/',
       },
     ],
@@ -280,10 +315,13 @@ export const banks: Record<BankCode, Bank> = {
       },
       {
         type: Channel.CALL_CENTER,
+        name: 'GHBank Call Center',
         uri: 'tel:+6626459000',
       },
       {
         type: Channel.APP,
+        key: 'ghb_all_gen',
+        name: 'GHB ALL GEN',
         uri: 'https://www.ghbank.co.th/electronic-services/application/ghb-all-gen',
       },
     ],
@@ -308,10 +346,13 @@ export const banks: Record<BankCode, Bank> = {
       },
       {
         type: Channel.CALL_CENTER,
+        name: 'TISCO Contact Center',
         uri: 'tel:+6626336000',
       },
       {
         type: Channel.APP,
+        key: 'tisco_my_wealth',
+        name: 'TISCO My Wealth',
         uri: 'https://www.tisco.co.th/th/personal/service/mywealth.html',
       },
     ],
@@ -336,11 +377,26 @@ export const banks: Record<BankCode, Bank> = {
       },
       {
         type: Channel.CALL_CENTER,
+        name: 'KKP Contact Center',
         uri: 'tel:+66216555555',
       },
       {
         type: Channel.APP,
+        key: 'kkp_mobile',
+        name: 'KKP Mobile',
         uri: 'https://bank.kkpfg.com/th/personal-banking/digital-banking/kkp-mobile',
+      },
+      {
+        type: Channel.APP,
+        key: 'dime',
+        name: 'Dime',
+        uri: 'https://dime.co.th/',
+      },
+      {
+        type: Channel.APP,
+        key: 'truemoney_wallet',
+        name: 'TrueMoney Wallet',
+        uri: 'https://www.truemoney.com/',
       },
     ],
     icon: {
@@ -368,6 +424,8 @@ export const banks: Record<BankCode, Bank> = {
       },
       {
         type: Channel.APP,
+        key: 'alpha',
+        name: 'alpha by Thai Credit',
         uri: 'https://alpha.thaicreditbank.com/th',
       },
     ],
@@ -396,6 +454,8 @@ export const banks: Record<BankCode, Bank> = {
       },
       {
         type: Channel.APP,
+        key: 'lhb_you',
+        name: 'LHB YOU',
         uri: 'https://www.lhbank.co.th/th/personal/digitalbanking/lhbyou/',
       },
     ],
@@ -420,10 +480,13 @@ export const banks: Record<BankCode, Bank> = {
       },
       {
         type: Channel.CALL_CENTER,
+        name: 'TTB Contact Center',
         uri: 'tel:1428',
       },
       {
         type: Channel.APP,
+        key: 'ttb_touch',
+        name: 'TTB Touch',
         uri: 'https://www.ttbbank.com/th/ttb-touch',
       },
     ],
@@ -452,6 +515,8 @@ export const banks: Record<BankCode, Bank> = {
       },
       {
         type: Channel.APP,
+        key: 'baac_mobile',
+        name: 'BAAC Mobile',
         uri: 'https://www.baac.or.th/th/content-product.php?content_group_semi=0015&content_group_sub=8&content_group=4&inside=1',
       },
     ],
@@ -461,3 +526,18 @@ export const banks: Record<BankCode, Bank> = {
     },
   },
 }
+
+export const bankChannels = Object.entries(banks).reduce(
+  (acc, [bankCode, { channels = [] }]) => {
+    acc[bankCode as BankCode] = channels.reduce(
+      (acc, channel) => {
+        const key = `${channel.type}:${channel.key || 'default'}`
+        acc[key] = channel
+        return acc
+      },
+      {} as Record<string, BankChannel>,
+    )
+    return acc
+  },
+  {} as Record<BankCode, Record<string, BankChannel>>,
+)

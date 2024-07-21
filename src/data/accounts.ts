@@ -1,4 +1,5 @@
 import { DocumentType, InterestMethod } from '@/constants/accounts'
+import { Channel } from '@/constants/banks'
 
 import { BankCode } from './banks'
 
@@ -15,15 +16,24 @@ export type Document = {
   text?: string
 }
 
+export type OpenAccountChannel = {
+  type: Channel
+  key?: string
+}
+
 export type Account = {
   code: string
   name: string
+  bank?: BankCode
   shortName?: string
   interestMethod: InterestMethod
   interestRates: InterestRate[]
   bonusInterestRates?: InterestRate[]
   bonusConditions?: string
   documents?: Document[]
+  openAccountStatus?: boolean
+  openAccountConditions?: string
+  openAccountChannels?: OpenAccountChannel[]
   icon?: {
     path: string
     bgColor?: `#${string}`
@@ -53,6 +63,10 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://www.cimbthai.com/th/personal/products/accounts/savings-account/chill-d-savings-by-cimb-thai-maximum-interest-at-2-aa.html',
         },
       ],
+      openAccountChannels: [
+        { type: Channel.BRANCH },
+        { type: Channel.APP, key: 'cimb_thai' },
+      ],
     },
     {
       code: 'CIMB_SPEED_D_PLUS_SAVINGS',
@@ -73,6 +87,10 @@ export const accounts: Record<BankCode, Account[]> = {
           type: DocumentType.WEBSITE,
           url: 'https://www.cimbthai.com/th/personal/products/accounts/savings-account/speed-d-plus-savings-by-cimb-thai.html',
         },
+      ],
+      openAccountChannels: [
+        { type: Channel.BRANCH },
+        { type: Channel.APP, key: 'cimb_thai' },
       ],
     },
   ],
@@ -99,6 +117,7 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://www.lhbank.co.th/getattachment/985ccf71-2b08-4eb5-adfc-c31077959f3d/personal-recommended-product-all-promotions-deposits-b-you-wealth-document-Sales-Sheet-03-(1)',
         },
       ],
+      openAccountChannels: [{ type: Channel.APP, key: 'lhb_you' }],
     },
     {
       code: 'LHB_PRO_FIT',
@@ -119,6 +138,10 @@ export const accounts: Record<BankCode, Account[]> = {
           type: DocumentType.SALES_SHEET,
           url: 'https://www.lhbank.co.th/getattachment/683a0828-a559-4389-8da2-27f1c167327c/personal-%E0%B9%80%E0%B8%87%E0%B8%B4%E0%B8%99%E0%B8%9D%E0%B8%B2%E0%B8%81-%E0%B9%80%E0%B8%87%E0%B8%B4%E0%B8%99%E0%B8%9D%E0%B8%B2%E0%B8%81%E0%B8%94%E0%B8%B4%E0%B8%88%E0%B8%B4%E0%B8%97%E0%B8%B1%E0%B8%A5-pro-fit-digital-savings-detail-%E0%B9%80%E0%B8%AD%E0%B8%81%E0%B8%AA%E0%B8%B2%E0%B8%A3%E0%B8%97%E0%B9%80%E0%B8%81%E0%B8%A2%E0%B8%A7%E0%B8%82%E0%B8%AD%E0%B8%87-%E0%B8%84%E0%B8%B9%E0%B9%88%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%AD%E0%B8%AD%E0%B8%A1%E0%B8%97%E0%B8%A3%E0%B8%B1%E0%B8%9E%E0%B8%A2%E0%B9%8C%E0%B8%94%E0%B8%B4%E0%B8%88%E0%B8%B4%E0%B8%97%E0%B8%B1%E0%B8%A5-%E0%B9%82%E0%B8%9B%E0%B8%A3-%E0%B8%9F%E0%B8%B4%E0%B8%95',
         },
+      ],
+      openAccountChannels: [
+        { type: Channel.BRANCH },
+        { type: Channel.APP, key: 'lhb_you' },
       ],
     },
   ],
@@ -150,6 +173,7 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://media.kkpfg.com/document/2022/Jul/SaleSheet_Dime!_Saving.pdf',
         },
       ],
+      openAccountChannels: [{ type: Channel.APP, key: 'dime' }],
     },
     {
       code: 'KKP_START_SAVING',
@@ -178,6 +202,7 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://media.kkpfg.com/document/2020/Aug/SaleSheet_KKP_Start_Saving.pdf',
         },
       ],
+      openAccountChannels: [{ type: Channel.APP, key: 'truemoney_wallet' }],
     },
     {
       code: 'KKP_KKP_SAVVY',
@@ -201,6 +226,7 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://media.kkpfg.com/document/2020/Nov/SaleSheet_KKP_Savvy.pdf',
         },
       ],
+      openAccountChannels: [{ type: Channel.APP, key: 'kkp_mobile' }],
     },
   ],
   [BankCode.TTB]: [
@@ -226,6 +252,7 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://media.ttbbank.com/1/document/deposit/ss_me.pdf',
         },
       ],
+      openAccountChannels: [{ type: Channel.APP, key: 'ttb_touch' }],
     },
   ],
   [BankCode.TCR]: [
@@ -248,6 +275,7 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://adminweb.thaicreditbank.com/Files/Site0/%E0%B9%80%E0%B8%AD%E0%B8%81%E0%B8%AA%E0%B8%B2%E0%B8%A3%E0%B9%80%E0%B8%87%E0%B8%B4%E0%B8%99%E0%B8%9D%E0%B8%B2%E0%B8%81/1Jul2024/2-9-SaleSheet-%E0%B8%AD%E0%B8%AD%E0%B8%A1%E0%B8%97%E0%B8%A3%E0%B8%B1%E0%B8%9E%E0%B8%A2%E0%B9%8C%E0%B8%AD%E0%B8%B1%E0%B8%A5%E0%B8%9F%E0%B8%B2-TH.pdf',
         },
       ],
+      openAccountChannels: [{ type: Channel.APP, key: 'alpha' }],
     },
   ],
   [BankCode.GHB]: [
@@ -270,6 +298,7 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://www.ghbank.co.th/uploads/product/sale_sheet/19299_4fa46ddd62e2b4ce329ff3318c33226f68cd1219_423.pdf',
         },
       ],
+      openAccountChannels: [{ type: Channel.BRANCH }],
     },
     {
       code: 'GHB_WELFARE_SAVINGS',
@@ -290,6 +319,7 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://www.ghbank.co.th/uploads/product/sale_sheet/19048_aab1fe21088972538502517a3d612aee0da59349_418.PDF',
         },
       ],
+      openAccountChannels: [{ type: Channel.BRANCH }],
     },
     {
       code: 'GHB_ECO_SAVINGS',
@@ -306,6 +336,8 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://www.ghbank.co.th/uploads/product/sale_sheet/13956_a8efc905ac8ed05febcedb875a1e1d8b35bd09eb_279.PDF',
         },
       ],
+      openAccountStatus: false,
+      openAccountChannels: [{ type: Channel.APP, key: 'ghb_all_gen' }],
     },
   ],
   [BankCode.TISCO]: [
@@ -328,6 +360,10 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://www.tisco.co.th/content/dam/tiscobank/download/deposit/salessheet-prodcat-v52.pdf',
         },
       ],
+      openAccountChannels: [
+        { type: Channel.BRANCH },
+        { type: Channel.APP, key: 'tisco_my_wealth' },
+      ],
     },
   ],
   [BankCode.GSB]: [],
@@ -348,6 +384,7 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://www.krungsri.com/th/personal/deposit/savings-account/mee-tae-dai/online',
         },
       ],
+      openAccountChannels: [{ type: Channel.APP, key: 'kma' }],
     },
   ],
   [BankCode.KTB]: [
@@ -374,6 +411,10 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://krungthai.com/Download/product/MediaFile_20924TC_NextSavings_AUG_TH.pdf',
         },
       ],
+      openAccountChannels: [
+        { type: Channel.BRANCH },
+        { type: Channel.APP, key: 'krungthai_next' },
+      ],
     },
   ],
   [BankCode.UOB]: [
@@ -398,6 +439,10 @@ export const accounts: Record<BankCode, Account[]> = {
           type: DocumentType.SALES_SHEET,
           url: 'https://www.uob.co.th/web-resources/pdf/personal/deposits/salesheet-uob-stash-tmrw-th.pdf',
         },
+      ],
+      openAccountChannels: [
+        { type: Channel.BRANCH },
+        { type: Channel.APP, key: 'uob_tmrw' },
       ],
     },
   ],
@@ -426,6 +471,10 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://www.scb.co.th/content/media/personal-banking/terms-conditions/deposits/ez-savings-account/tc-ez-savings-account.pdf',
         },
       ],
+      openAccountChannels: [
+        { type: Channel.BRANCH },
+        { type: Channel.APP, key: 'scb_easy' },
+      ],
     },
   ],
   [BankCode.KBANK]: [
@@ -452,6 +501,7 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://www.kasikornbank.com/th/download/tc/Terms_and_Conditions_for_Opening_and_Use_of_K-eSavings_Account_24-6-2024-TH.pdf',
         },
       ],
+      openAccountChannels: [{ type: Channel.APP, key: 'kplus' }],
     },
     {
       code: 'KBANK_MAKE',
@@ -476,6 +526,10 @@ export const accounts: Record<BankCode, Account[]> = {
         path: '/images/banks/make.svg',
         bgColor: '#FFFFFF',
       },
+      openAccountChannels: [
+        { type: Channel.BRANCH },
+        { type: Channel.APP, key: 'make_by_kbank' },
+      ],
     },
   ],
   [BankCode.BBL]: [
@@ -502,6 +556,10 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://www.bangkokbank.com/th-TH/Personal/Save-And-Invest/Save/-/media/eb33880346d943cdade39953c659b506.ashx',
         },
       ],
+      openAccountChannels: [
+        { type: Channel.BRANCH },
+        { type: Channel.APP, key: 'bangkok_bank_mobile_banking' },
+      ],
     },
   ],
   [BankCode.BAAC]: [
@@ -516,6 +574,10 @@ export const accounts: Record<BankCode, Account[]> = {
           type: DocumentType.SALES_SHEET,
           url: 'https://www.baac.or.th/file-upload/015204-1-Sale%20Sheet%20%E0%B8%9C%E0%B8%A5%E0%B8%B4%E0%B8%95%E0%B8%A0%E0%B8%B1%E0%B8%93%E0%B8%91%E0%B9%8C%E0%B9%80%E0%B8%87%E0%B8%B4%E0%B8%99%E0%B8%9D%E0%B8%B2%E0%B8%81%E0%B8%AD%E0%B8%AD%E0%B8%A1%E0%B8%97%E0%B8%A3%E0%B8%B1%E0%B8%9E%E0%B8%A2%E0%B9%8C%20A-Savings.pdf',
         },
+      ],
+      openAccountChannels: [
+        { type: Channel.BRANCH },
+        { type: Channel.APP, key: 'baac_mobile' },
       ],
     },
   ],
