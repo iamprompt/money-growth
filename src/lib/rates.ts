@@ -12,6 +12,8 @@ export const mergeInterestRates = (code: string, bonus: boolean = false) => {
   const { interestRates, bonusInterestRates = [] } = account
 
   for (const interestRate of interestRates) {
+    console.log('RATE', interestRate)
+
     if (bonus) {
       // Bonus Rates that start within the range of the current rate
       const bonusRates = bonusInterestRates.filter(
@@ -52,6 +54,10 @@ export const mergeInterestRates = (code: string, bonus: boolean = false) => {
           globalMin = max
         } else {
           globalMin = interestRate.max
+        }
+
+        if (min === max) {
+          continue
         }
 
         extractedInterestRates.push({ rate, min, max })

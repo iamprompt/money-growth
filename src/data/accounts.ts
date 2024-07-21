@@ -133,6 +133,9 @@ export const accounts: Record<BankCode, Account[]> = {
         { min: 10000, max: 1000000, rate: 1.5 },
         { min: 1000000, max: Infinity, rate: 0.5 },
       ],
+      bonusInterestRates: [{ min: 0, max: 10000, rate: 2.0 }],
+      bonusConditions:
+        'ลูกค้าต้องเปิดบัญชีลงทุนผ่านแอปพลิเคชัน Dime! ให้สำเร็จและทำรายการซื้อหุ้นสหรัฐอเมริกาและ/หรือ ETF ต่างประเทศ (ไม่นับรวมรายการล่วงหน้า (DCA)) มูลค่ารวมทั้งสิ้น 5,000 บาทขึ้นไปภายในวันที่ 29 มิถุนายน 2567 - 30 สิงหาคม 2567 โดยนับเฉพาะรายการที่จับคู่เรียบร้อยแล้ว',
       icon: {
         path: '/images/banks/dime.svg',
         bgColor: '#5DF591',
