@@ -77,9 +77,6 @@ export const AccountAccordionItem = ({
     return bank.icon
   }, [bank, account])
 
-  console.log('account', account)
-  console.log('bank', bank)
-
   return (
     <AccordionItem
       key={`accordion_account_${account.code}`}
