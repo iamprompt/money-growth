@@ -19,12 +19,14 @@ type InterestByAccount = {
 type AccountAccordionBundleProps = {
   sortedAccounts?: string[]
   interestByAccount?: InterestByAccount[]
+  showResult?: boolean
   loading?: boolean
 }
 
 export const AccountAccordionBundle = ({
   sortedAccounts = [],
   interestByAccount = [],
+  showResult = false,
   loading = false,
 }: AccountAccordionBundleProps) => {
   const accounts = useMemo(() => {
@@ -45,7 +47,7 @@ export const AccountAccordionBundle = ({
     )
   }
 
-  if (sortedAccounts.length > 0 && interestByAccount.length > 0) {
+  if (showResult) {
     return (
       <Fragment>
         {sortedAccounts.map((product) => {

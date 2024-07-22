@@ -211,9 +211,9 @@ export const calculateCombinedInterest = (
 ) => {
   const { days = 365, daysInYear = 365, bonus, exclude = [] } = options
 
-  const products = options.products || []
+  let products = options.products || []
 
-  const sortedInterestAccounts: CalculatedAccount[] = []
+  let sortedInterestAccounts: CalculatedAccount[] = []
 
   const interests: Record<string, CalculatedInterestRate[]> = {}
   const avgRates: Record<string, number> = {}
@@ -254,7 +254,7 @@ export const calculateCombinedInterest = (
     ([, rateA], [, rateB]) => rateB - rateA,
   )
 
-  const [highestRate] = sortedAverageRate
+  const [highestRate, ...restRates] = sortedAverageRate
 
   if (highestRate) {
     const [highestProductCode, highestAvgRate] = highestRate || []
@@ -291,12 +291,45 @@ export const calculateCombinedInterest = (
     totalInterest += interest
   }
 
+  let remaining = amount - totalAmount
+  let interestAverage = roundValue((totalInterest / totalAmount) * 100)
+
+  const [greaterRate] = restRates.filter(
+    ([prodCode, rate]) =>
+      rate > interestAverage && remainingMap[prodCode] === 0,
+  )
+
+  console.log('greaterRate', greaterRate)
+  if (greaterRate) {
+    const [prodCode] = greaterRate
+
+    products = [prodCode]
+    sortedInterestAccounts = [
+      {
+        productCode: prodCode,
+        steps: interests[prodCode],
+        average: avgRates[prodCode],
+        interest: interests[prodCode].reduce(
+          (acc, { interest }) => acc + interest,
+          0,
+        ),
+        remaining: remainingMap[prodCode],
+        amount: computedAmountMap[prodCode],
+        bonus: typeof bonus === 'boolean' ? bonus : bonus?.[prodCode] || false,
+      },
+    ]
+    totalAmount = computedAmountMap[prodCode]
+    totalInterest = sortedInterestAccounts[0].interest
+    remaining = 0
+    interestAverage = avgRates[prodCode]
+  }
+
   return {
     products,
     interests: sortedInterestAccounts,
     totalAmount,
-    remaining: amount - totalAmount,
+    remaining,
     totalInterest,
-    interestAverage: roundValue((totalInterest / totalAmount) * 100),
+    interestAverage,
   }
 }

@@ -77,7 +77,7 @@ const Page = () => {
 
   const isPreferencesLoaded = useRef(false)
 
-  const { data, isPending, mutateAsync } = useMutation<
+  const { data, isPending, isSuccess, mutateAsync } = useMutation<
     CalculateInterestResponse,
     Error,
     { amount: number; bonus?: boolean }
@@ -216,6 +216,7 @@ const Page = () => {
               sortedAccounts={data?.products}
               interestByAccount={data?.interests}
               loading={isPending}
+              showResult={isSuccess}
             />
           </Accordion>
 

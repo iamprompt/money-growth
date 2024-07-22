@@ -17,6 +17,10 @@ export const numerizeDecimal = (number: string | number = 0): string => {
     number = parseFloat(number)
   }
 
+  if (isNaN(Number(number)) || typeof number !== 'number') {
+    number = 0
+  }
+
   return number.toLocaleString(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
