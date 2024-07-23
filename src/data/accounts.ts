@@ -34,6 +34,7 @@ export type Account = {
   openAccountStatus?: boolean
   openAccountConditions?: string
   openAccountChannels?: OpenAccountChannel[]
+  remarks?: string
   icon?: {
     path: string
     bgColor?: `#${string}`
@@ -385,6 +386,31 @@ export const accounts: Record<BankCode, Account[]> = {
         },
       ],
       openAccountChannels: [{ type: Channel.APP, key: 'kma' }],
+    },
+    {
+      code: 'BAY_KEPT_GROW',
+      name: 'Kept บัญชี Grow',
+      shortName: 'Kept บัญชี Grow',
+      interestMethod: InterestMethod.STEP_UP,
+      interestRates: [{ min: 0, max: 5000000, rate: 1.75 }],
+      bonusInterestRates: [{ min: 0, max: 5000000, rate: 0.12 }],
+      bonusConditions:
+        'เดือนที่ 19 - 24 จำนวน 2.22% ต่อปี ทั้งนี้ดอกเบี้ยที่คำนวณเป็นดอกเบี้ยเฉลี่ยจากการฝากเงินนาน 24 เดือน 1.87% ต่อปี ตามเงื่อนไขจากทางธนาคาร',
+      documents: [
+        {
+          type: DocumentType.WEBSITE,
+          url: 'https://www.keptbykrungsri.com/grow-savings',
+        },
+        {
+          type: DocumentType.SALES_SHEET,
+          url: 'https://www.keptbykrungsri.com/getmedia/351c9f57-c239-4b58-ace6-2bd4ec105275/FS_Grow_V1_20_16052024.pdf.aspx',
+        },
+      ],
+      icon: {
+        path: '/images/banks/kept.svg',
+        bgColor: '#B82230',
+      },
+      openAccountChannels: [{ type: Channel.APP, key: 'kept' }],
     },
   ],
   [BankCode.KTB]: [

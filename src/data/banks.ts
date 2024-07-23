@@ -263,6 +263,12 @@ export const banks: Record<BankCode, Bank> = {
         name: 'KMA (Krungsri Mobile App)',
         uri: 'https://www.krungsri.com/th/personal/digital-banking/kma/home',
       },
+      {
+        type: Channel.APP,
+        key: 'kept',
+        name: 'Kept',
+        uri: 'https://www.keptbykrungsri.com/home',
+      },
     ],
     icon: {
       path: '/images/banks/bay.svg',

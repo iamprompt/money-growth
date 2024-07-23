@@ -293,6 +293,12 @@ export const AccountAccordionItem = ({
               <span>{account.bonusConditions}</span>
             </div>
           )}
+          {account.remarks && (
+            <div>
+              <span className="font-semibold mb-2">หมายเหตุ: </span>
+              <span>{account.remarks}</span>
+            </div>
+          )}
           {!!account.openAccountChannels?.length && (
             <div>
               <span className="font-semibold">ช่องทางการเปิดบัญชี: </span>
