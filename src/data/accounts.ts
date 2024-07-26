@@ -145,6 +145,19 @@ export const accounts: Record<BankCode, Account[]> = {
         { type: Channel.APP, key: 'lhb_you' },
       ],
     },
+    {
+      code: 'LHB_B_YOU_MAX',
+      name: 'บัญชีออมทรัพย์ดิจิทัล บียู แม็กซ์',
+      shortName: 'B You Max',
+      interestMethod: InterestMethod.STEP_UP,
+      interestRates: [
+        { min: 0, max: 10000, rate: 3 },
+        { min: 10000, max: 100000000, rate: 0.25 },
+      ],
+      documents: [],
+      openAccountChannels: [{ type: Channel.APP, key: 'lhb_you' }],
+      openAccountStatus: false,
+    },
   ],
   [BankCode.KKP]: [
     {
