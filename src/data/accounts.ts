@@ -254,7 +254,7 @@ export const accounts: Record<BankCode, Account[]> = {
         { min: 100000, max: 1000000, rate: 0.4 },
         { min: 1000000, max: Infinity, rate: 0 },
       ],
-      bonusInterestRates: [{ min: 0, max: Infinity, rate: 1.2 }],
+      bonusInterestRates: [{ min: 0, max: Infinity, rate: 1.0 }],
       bonusConditions: 'มียอดฝากมากกว่าถอนในแต่ละเดือน',
       documents: [
         {
