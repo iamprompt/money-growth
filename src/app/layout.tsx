@@ -1,5 +1,6 @@
 import '@/styles/globals.css'
 
+import { GoogleTagManager } from '@next/third-parties/google'
 import type { Metadata, Viewport } from 'next'
 import { ReactNode } from 'react'
 
@@ -20,6 +21,7 @@ export const viewport: Viewport = {
 const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
   return (
     <html lang="th">
+      {process.env.GTM_ID && <GoogleTagManager gtmId={process.env.GTM_ID} />}
       <body>
         <Providers>
           {children}
