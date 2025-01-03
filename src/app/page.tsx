@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { sendGTMEvent } from '@next/third-parties/google'
 import { useMutation } from '@tanstack/react-query'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -127,6 +128,7 @@ const Page = () => {
   const handleSubmit = useCallback(
     async (data: z.input<typeof schema>) => {
       form.setValue('amount', numerizeDecimal(data.amount))
+      sendGTMEvent({ event: 'calculate_interest' })
       await mutateAsync({ ...data, amount: parseFloat(data.amount) })
       console.log('Result fetched successfully')
 

@@ -1,5 +1,6 @@
 'use client'
 
+import { sendGTMEvent } from '@next/third-parties/google'
 import { Accordion } from '@radix-ui/react-accordion'
 import { Info } from 'lucide-react'
 import Image from 'next/image'
@@ -116,6 +117,7 @@ const AdvancedFilterDrawer = ({
 
   const handleSubmit = async () => {
     await filterFormRef.current?.submit()
+    sendGTMEvent({ event: 'filter_advanced' })
     setIsOpen(false)
   }
 
