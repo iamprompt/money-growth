@@ -1,4 +1,3 @@
-import { ExternalLink, FileTextIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Fragment, useMemo } from 'react'
@@ -13,9 +12,9 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { DocumentType, InterestMethodMap } from '@/constants/accounts'
+import { DocumentTypeMap, InterestMethodMap } from '@/constants/accounts'
 import { Channel } from '@/constants/banks'
-import { Account, Document } from '@/data/accounts'
+import { Account } from '@/data/accounts'
 import { Bank } from '@/data/banks'
 import { getBankChannel } from '@/lib/banks'
 import { numerize, numerizeDecimal } from '@/lib/number'
@@ -63,10 +62,12 @@ export const AccountAccordionItem = ({
 
   const accountDocs = useMemo(() => {
     const { documents = [] } = account
-    return documents.reduce(
-      (acc, doc) => ({ ...acc, [doc.type]: doc }),
-      {} as Record<DocumentType, Document>,
-    )
+    return documents.map((doc) => ({
+      icon: DocumentTypeMap[doc.type].icon,
+      type: doc.type,
+      text: doc.text || DocumentTypeMap[doc.type].title,
+      url: doc.url,
+    }))
   }, [account])
 
   const icon = useMemo(() => {
@@ -167,40 +168,23 @@ export const AccountAccordionItem = ({
                   : ''}
               </div>
               <div className="flex items-center gap-1">
-                {accountDocs[DocumentType.WEBSITE] && (
-                  <Tooltip>
+                {accountDocs.map((doc, idx) => (
+                  <Tooltip key={`${account.code}_document_${idx}`}>
                     <TooltipTrigger>
                       <Link
-                        href={accountDocs[DocumentType.WEBSITE].url || '#'}
+                        href={doc.url || '#'}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="hover:text-gray-500 inline-block"
                       >
-                        <ExternalLink className="size-3.5" />
+                        <doc.icon className="size-3.5" />
                       </Link>
                     </TooltipTrigger>
                     <TooltipContent className="max-w-96">
-                      เว็บไซต์
+                      {doc.text}
                     </TooltipContent>
                   </Tooltip>
-                )}
-                {accountDocs[DocumentType.SALES_SHEET] && (
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Link
-                        href={accountDocs[DocumentType.SALES_SHEET].url || '#'}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-gray-500 inline-block"
-                      >
-                        <FileTextIcon className="size-3.5" />
-                      </Link>
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-96">
-                      ตารางเปิดเผยข้อมูลผลิตภัณฑ์
-                    </TooltipContent>
-                  </Tooltip>
-                )}
+                ))}
               </div>
             </div>
             <div className="text-xs border rounded-lg w-full overflow-hidden overflow-x-scroll md:no-scrollbar">
@@ -345,6 +329,12 @@ export const AccountAccordionItem = ({
                   )
                 })}
               </span>
+            </div>
+          )}
+          {account.openAccountConditions && (
+            <div>
+              <span className="font-semibold mb-2">เงื่อนไขการเปิดบัญชี: </span>
+              <span>{account.openAccountConditions}</span>
             </div>
           )}
         </div>

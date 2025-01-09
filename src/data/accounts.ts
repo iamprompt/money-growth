@@ -21,6 +21,11 @@ export type OpenAccountChannel = {
   key?: string
 }
 
+export type Payday = {
+  day?: number
+  month: number
+}
+
 export type Account = {
   code: string
   name: string
@@ -39,6 +44,7 @@ export type Account = {
     path: string
     bgColor?: `#${string}`
   }
+  paydays?: Payday[]
 }
 
 export const accounts: Record<BankCode, Account[]> = {
@@ -188,11 +194,11 @@ export const accounts: Record<BankCode, Account[]> = {
     },
     {
       code: 'KKP_START_SAVING',
-      name: 'บัญชีเงินฝากออมทรัพย์ KKP START SAVING',
-      shortName: 'KKP Start Saving',
+      name: 'บัญชีเงินฝากออมทรัพย์ KKP START SAVING (Money Plus)',
+      shortName: 'Money Plus',
       icon: {
-        path: '/images/banks/kkp_tmn.png',
-        bgColor: '#FFF3E9',
+        path: '/images/banks/tmn_mny_plus.svg',
+        bgColor: '#FFFFFF',
       },
       interestMethod: InterestMethod.STEP_UP,
       interestRates: [
@@ -202,8 +208,13 @@ export const accounts: Record<BankCode, Account[]> = {
       ],
       bonusInterestRates: [{ min: 5000, max: 10000, rate: 2.0 }],
       bonusConditions:
-        'เมื่อสมัครบริการตั้งฝากอัตโนมัติจากแอป TrueMoney Wallet เข้าไปยัง KKP START SAVING ระยะเวลาโปรโมชัน 26 เม.ย. - 25 ก.ค. 2567\nจ่ายดอกเบี้ยโบนัส 31 ส.ค. 2567',
+        'ลูกค้าจะมีสิทธิได้รับอัตราดอกเบี้ยโบนัสในเดือนต่อๆ ไปตลอดระยะเวลาของแคมเปญ หากระหว่างที่แคมเปญมีผล ลูกค้ายังคงใช้บริการตั้งฝากอัตโนมัติอย่างต่อเนื่อง และมีการฝากเงินเข้ามาในบัญชี Money Plus ในแต่ละเดือน มากกว่าจำนวนเงินที่ถอนออก (โดยการคำนวณยอดการฝากจะไม่รวมรายการดอกเบี้ยที่ธนาคารจ่ายเข้าบัญชีลูกค้า)',
       documents: [
+        {
+          type: DocumentType.WEBSITE,
+          text: 'เว็บไซต์ Money Plus',
+          url: 'https://www.truemoney.com/moneyplus/',
+        },
         {
           type: DocumentType.WEBSITE,
           url: 'https://bank.kkpfg.com/th/personal-banking/deposit/savings-account/kkp-start-saving',
@@ -309,6 +320,10 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://www.ghbank.co.th/uploads/product/sale_sheet/19299_4fa46ddd62e2b4ce329ff3318c33226f68cd1219_423.pdf',
         },
       ],
+      paydays: [
+        { day: 29, month: 6 },
+        { day: 29, month: 12 },
+      ],
       openAccountChannels: [{ type: Channel.BRANCH }],
     },
     {
@@ -330,7 +345,23 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://www.ghbank.co.th/uploads/product/sale_sheet/19048_aab1fe21088972538502517a3d612aee0da59349_418.PDF',
         },
       ],
+      paydays: [
+        { day: 15, month: 1 },
+        { day: 15, month: 2 },
+        { day: 15, month: 3 },
+        { day: 15, month: 4 },
+        { day: 15, month: 5 },
+        { day: 15, month: 6 },
+        { day: 15, month: 7 },
+        { day: 15, month: 8 },
+        { day: 15, month: 9 },
+        { day: 15, month: 10 },
+        { day: 15, month: 11 },
+        { day: 15, month: 12 },
+      ],
       openAccountChannels: [{ type: Channel.BRANCH }],
+      openAccountConditions:
+        'เฉพาะผู้ปฏิบัติงานในหน่วยงานที่เข้าร่วมโครงการสวัสดิการสินเชื่อเพื่อที่อยู่อาศัยกับธอส. หรือสมาชิกของสภา / สมาคมที่เข้าร่วมโครงการ Life Begins with GHB, ตัวแทนจ่าหน่ายสลากกินแบ่งรัฐบาลและกลุ่มลูกค้าทีได้รับมอบเกียรติบตัรจากกองทุนเงินให้กู้ยืมเพื่อการศึกษา',
     },
     {
       code: 'GHB_ECO_SAVINGS',
@@ -341,13 +372,12 @@ export const accounts: Record<BankCode, Account[]> = {
         { min: 0, max: 5000000, rate: 1.75 },
         { min: 5000000, max: Infinity, rate: 0.4 },
       ],
-      documents: [
-        {
-          type: DocumentType.SALES_SHEET,
-          url: 'https://www.ghbank.co.th/uploads/product/sale_sheet/13956_a8efc905ac8ed05febcedb875a1e1d8b35bd09eb_279.PDF',
-        },
-      ],
+      documents: [],
       openAccountStatus: false,
+      paydays: [
+        { day: 29, month: 6 },
+        { day: 29, month: 12 },
+      ],
       openAccountChannels: [{ type: Channel.APP, key: 'ghb_all_gen' }],
     },
   ],
@@ -368,8 +398,22 @@ export const accounts: Record<BankCode, Account[]> = {
         },
         {
           type: DocumentType.SALES_SHEET,
-          url: 'https://www.tisco.co.th/content/dam/tiscobank/download/deposit/salessheet-prodcat-v52.pdf',
+          url: 'https://www.tisco.co.th/wp-content/uploads/salessheet-prodcat-V56.pdf',
         },
+      ],
+      paydays: [
+        { day: 25, month: 1 },
+        { day: 25, month: 2 },
+        { day: 25, month: 3 },
+        { day: 25, month: 4 },
+        { day: 25, month: 5 },
+        { day: 25, month: 6 },
+        { day: 25, month: 7 },
+        { day: 25, month: 8 },
+        { day: 25, month: 9 },
+        { day: 25, month: 10 },
+        { day: 25, month: 11 },
+        { day: 25, month: 12 },
       ],
       openAccountChannels: [
         { type: Channel.BRANCH },
@@ -431,7 +475,7 @@ export const accounts: Record<BankCode, Account[]> = {
       interestMethod: InterestMethod.STEP_UP,
       interestRates: [
         { min: 0, max: 2000000, rate: 1.5 },
-        { min: 2000000, max: Infinity, rate: 0.65 },
+        { min: 2000000, max: Infinity, rate: 0.55 },
       ],
       documents: [
         {
@@ -491,7 +535,7 @@ export const accounts: Record<BankCode, Account[]> = {
       interestRates: [
         { min: 0, max: 2000000, rate: 1.5 },
         { min: 2000000, max: 3000000, rate: 1.0 },
-        { min: 3000000, max: Infinity, rate: 0.65 },
+        { min: 3000000, max: Infinity, rate: 0.55 },
       ],
       documents: [
         {
@@ -507,6 +551,20 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://www.scb.co.th/content/media/personal-banking/terms-conditions/deposits/ez-savings-account/tc-ez-savings-account.pdf',
         },
       ],
+      paydays: [
+        { day: 25, month: 1 },
+        { day: 25, month: 2 },
+        { day: 25, month: 3 },
+        { day: 25, month: 4 },
+        { day: 25, month: 5 },
+        { day: 25, month: 6 },
+        { day: 25, month: 7 },
+        { day: 25, month: 8 },
+        { day: 25, month: 9 },
+        { day: 25, month: 10 },
+        { day: 25, month: 11 },
+        { day: 25, month: 12 },
+      ],
       openAccountChannels: [
         { type: Channel.BRANCH },
         { type: Channel.APP, key: 'scb_easy' },
@@ -521,7 +579,7 @@ export const accounts: Record<BankCode, Account[]> = {
       interestMethod: InterestMethod.STEP_UP,
       interestRates: [
         { min: 0, max: 500000, rate: 1.5 },
-        { min: 500000, max: Infinity, rate: 0.65 },
+        { min: 500000, max: Infinity, rate: 0.55 },
       ],
       documents: [
         {
@@ -537,6 +595,7 @@ export const accounts: Record<BankCode, Account[]> = {
           url: 'https://www.kasikornbank.com/th/download/tc/Terms_and_Conditions_for_Opening_and_Use_of_K-eSavings_Account_24-6-2024-TH.pdf',
         },
       ],
+      paydays: [{ month: 6 }, { month: 12 }],
       openAccountChannels: [{ type: Channel.APP, key: 'kplus' }],
     },
     {
