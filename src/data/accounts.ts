@@ -162,7 +162,7 @@ export const accounts: Record<BankCode, Account[]> = {
       ],
       documents: [],
       openAccountChannels: [{ type: Channel.APP, key: 'lhb_you' }],
-      openAccountStatus: false,
+      openAccountStatus: true,
     },
   ],
   [BankCode.KKP]: [
@@ -307,8 +307,8 @@ export const accounts: Record<BankCode, Account[]> = {
       shortName: 'เก็บออม',
       interestMethod: InterestMethod.WHOLE,
       interestRates: [
-        { min: 0, max: 200000, rate: 1.95 },
-        { min: 200000, max: Infinity, rate: 0.45 },
+        { min: 0, max: 200000, rate: 1.85 },
+        { min: 200000, max: Infinity, rate: 0.35 },
       ],
       documents: [
         {
@@ -317,7 +317,7 @@ export const accounts: Record<BankCode, Account[]> = {
         },
         {
           type: DocumentType.SALES_SHEET,
-          url: 'https://www.ghbank.co.th/uploads/product/sale_sheet/19299_4fa46ddd62e2b4ce329ff3318c33226f68cd1219_423.pdf',
+          url: 'https://www.ghbank.co.th/sale_sheet/SB120-11',
         },
       ],
       paydays: [
