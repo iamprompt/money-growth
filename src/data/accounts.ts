@@ -56,7 +56,7 @@ export const accounts: Record<BankCode, Account[]> = {
       interestMethod: InterestMethod.STEP_UP,
       interestRates: [
         { min: 0, max: 10000, rate: 0.5 },
-        { min: 10000, max: 50000, rate: 1.8 },
+        { min: 10000, max: 50000, rate: 1.0 },
         { min: 50000, max: 100000, rate: 2.88 },
         { min: 100000, max: Infinity, rate: 0.2 },
       ],
