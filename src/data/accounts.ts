@@ -446,8 +446,8 @@ export const accounts: Record<BankCode, Account[]> = {
       name: 'Kept บัญชี Grow',
       shortName: 'Kept บัญชี Grow',
       interestMethod: InterestMethod.STEP_UP,
-      interestRates: [{ min: 0, max: 5000000, rate: 1.75 }],
-      bonusInterestRates: [{ min: 0, max: 5000000, rate: 0.12 }],
+      interestRates: [{ min: 0, max: 5000000, rate: 1.6 }],
+      bonusInterestRates: [{ min: 0, max: 5000000, rate: 0.1 }],
       bonusConditions:
         'เดือนที่ 19 - 24 จำนวน 2.22% ต่อปี ทั้งนี้ดอกเบี้ยที่คำนวณเป็นดอกเบี้ยเฉลี่ยจากการฝากเงินนาน 24 เดือน 1.87% ต่อปี ตามเงื่อนไขจากทางธนาคาร',
       documents: [
