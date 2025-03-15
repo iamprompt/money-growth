@@ -57,7 +57,7 @@ export const accounts: Record<BankCode, Account[]> = {
       interestRates: [
         { min: 0, max: 10000, rate: 0.5 },
         { min: 10000, max: 50000, rate: 1.0 },
-        { min: 50000, max: 100000, rate: 2.70 },
+        { min: 50000, max: 100000, rate: 2.7 },
         { min: 100000, max: Infinity, rate: 0.2 },
       ],
       documents: [
