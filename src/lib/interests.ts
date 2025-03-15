@@ -299,7 +299,6 @@ export const calculateCombinedInterest = (
       rate > interestAverage && remainingMap[prodCode] === 0,
   )
 
-  console.log('greaterRate', greaterRate)
   if (greaterRate) {
     const [prodCode] = greaterRate
 

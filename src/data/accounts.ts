@@ -81,10 +81,14 @@ export const accounts: Record<BankCode, Account[]> = {
       shortName: 'CIMB Speed D+',
       interestMethod: InterestMethod.WHOLE,
       interestRates: [
-        { min: 0, max: 100000, rate: 0.8 },
-        { min: 100000, max: 20000000, rate: 1.88 },
-        { min: 20000000, max: Infinity, rate: 0.5 },
+        { min: 0, max: 100_000, rate: 0.25 },
+        { min: 100_000, max: 3_000_000, rate: 1.5 },
+        { min: 3_000_000, max: 20_000_000, rate: 1.8 },
+        { min: 20_000_000, max: Infinity, rate: 0.5 },
       ],
+      bonusInterestRates: [{ min: 0, max: Infinity, rate: 0.3 }],
+      bonusConditions:
+        'สำหรับลูกค้าบุคคลธรรมดาที่สมัครเป็นสมาชิก CIMB Preferred และมียอดเงินฝากคงเหลือ ณ สิ้นวัน วันใดวันหนึ่งมากกว่า 3 ล้านบาทขึ้นไป ภายในเดือนที่สมัครสมาชิกของระยะเวลากิจกรรมตั้งแต่วันที่ 1 มกราคม - 31 มีนาคม 2568\nธนาคารจะคำนวณดอกเบี้ยรวมโบนัสตามจำนวนเงินฝากคงเหลือ ณ สิ้นวัน ในวันที่ 8 ของเดือนถัดไป นับจากเดือนที่เข้าเงื่อนไขข้างต้น เป็นระยะเวลา 4 เดือน และหลังจากนั้นลูกค้าจะได้รับอัตราดอกเบี้ยปกติตามประกาศอัตราดอกเบี้ยธนาคาร',
       documents: [
         {
           type: DocumentType.SALES_SHEET,
