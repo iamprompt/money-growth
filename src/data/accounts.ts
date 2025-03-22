@@ -583,7 +583,7 @@ export const accounts: Record<BankCode, Account[]> = {
       interestMethod: InterestMethod.STEP_UP,
       interestRates: [
         { min: 0, max: 500000, rate: 1.5 },
-        { min: 500000, max: Infinity, rate: 0.55 },
+        { min: 500000, max: Infinity, rate: 0.45 },
       ],
       documents: [
         {
@@ -609,7 +609,7 @@ export const accounts: Record<BankCode, Account[]> = {
       interestMethod: InterestMethod.STEP_UP,
       interestRates: [
         { min: 0, max: 500000, rate: 1.5 },
-        { min: 500000, max: Infinity, rate: 0.65 },
+        { min: 500000, max: Infinity, rate: 0.45 },
       ],
       documents: [
         {
